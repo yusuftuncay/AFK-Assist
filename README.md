@@ -28,4 +28,4 @@ You can download the .exe file from the <a href="https://github.com/yusuf0142/AF
 
 # Screenshots
 
-![image](https://user-images.githubusercontent.com/70652416/214708224-80569d9a-96e7-40bb-9881-0aef1d7a19fa.png)
+![image](https://user-images.githubusercontent.com/70652416/214882146-ae3850a4-9543-47e0-9f5d-d8e2015f7b50.png)
