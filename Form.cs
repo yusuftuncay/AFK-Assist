@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,24 +22,27 @@ namespace AFK_Assist
         #endregion
 
         #region Variables
-        Stopwatch Stopwatch = new Stopwatch();
+        readonly Stopwatch Stopwatch = new Stopwatch();
+        bool LoopRanOnce = false;
         bool AltTabbed = false;
         int LoopNumber = 0;
-        bool LoopRanOnce = false;
         #endregion
 
         #region Import and use DLL
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll")] // Mouse
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
         const uint MOUSEEVENTF_LEFTDOWN = 0x02;
         const uint MOUSEEVENTF_LEFTUP = 0x04;
         const uint MOUSEEVENTF_RIGHTDOWN = 0x08;
         const uint MOUSEEVENTF_RIGHTUP = 0x10;
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll")] // Keyboard
         public static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
         const int KEYEVENTF_EXTENDEDKEY = 0x0001; // Key Down
         const int KEYEVENTF_KEYUP = 0x0002; // Key Up
+
+        [DllImport("user32.dll")] // Process
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
         #endregion
 
         #region Buttons
@@ -71,28 +76,32 @@ namespace AFK_Assist
         }
         private void ButtonStop_Click(object sender, EventArgs e)
         {
-            // Check if Timer is already running
-            if (MainTimer.Enabled == false)
-            {
-                MessageBox.Show("The timer is not running", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                Stopwatch.Stop();
-                MainTimer.Stop();
-                EnableConfigurations();
-                SetTimerInterval(1);
+            Stopwatch.Stop();
+            MainTimer.Stop();
+            EnableConfigurations();
+            SetTimerInterval(1);
 
-                int minutes = (int)Stopwatch.Elapsed.TotalMinutes;
-                int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60)); 
-                MessageBox.Show("Elapsed Time " + minutes.ToString("00") + ":" + seconds.ToString("00"), "Stopped");
-            }
+            int minutes = (int)Stopwatch.Elapsed.TotalMinutes;
+            int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60)); 
+            MessageBox.Show("Elapsed Time " + minutes.ToString("00") + ":" + seconds.ToString("00"), "Stopped");
         }
         #endregion
 
         #region Timer
         private void Timer_TickAsync(object sender, EventArgs e)
         {
+            
+            Process process = Process.GetProcessesByName("GTA5").FirstOrDefault(); // Get the GTA5 Process
+            if (process != null && GTAToolStripMenuItem.Checked) // Check if the GTA is running
+            {
+                IntPtr hWnd = process.MainWindowHandle;
+                SetForegroundWindow(hWnd);
+
+                SendKeys.Send("%{TAB}");
+                Thread.Sleep(400);
+                SendKeys.Send("%{TAB}");
+            }
+            
             // Alt + Tab
             if (AltTabCheckBox.Checked == true && AltTabbed == false)
             {
@@ -336,7 +345,7 @@ namespace AFK_Assist
             TrackBarSpeed.Value = 1;
             LabelSpeed.Text = "1 simulation / minute";
             TrackBarLength.Value = 1;
-            LabelSpeed.Text = "1 minute";
+            LabelLength.Text = "1 minute";
         }
         private void TutorialToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -344,6 +353,8 @@ namespace AFK_Assist
         }
         private void GTAToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AltTabCheckBox.CheckState = CheckState.Unchecked;
+
             MouseCheckBox.CheckState = CheckState.Indeterminate;
             MouseClickLeftCheckBox.CheckState = CheckState.Checked;
             MouseClickRightCheckBox.CheckState = CheckState.Unchecked;

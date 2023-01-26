@@ -115,14 +115,14 @@ namespace AFK_Assist
             // GTAToolStripMenuItem
             // 
             this.GTAToolStripMenuItem.Name = "GTAToolStripMenuItem";
-            this.GTAToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.GTAToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.GTAToolStripMenuItem.Text = "Grand Theft Auto 5";
             this.GTAToolStripMenuItem.Click += new System.EventHandler(this.GTAToolStripMenuItem_Click);
             // 
             // RocketLeagueToolStripMenuItem
             // 
             this.RocketLeagueToolStripMenuItem.Name = "RocketLeagueToolStripMenuItem";
-            this.RocketLeagueToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.RocketLeagueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.RocketLeagueToolStripMenuItem.Text = "Rocket League";
             this.RocketLeagueToolStripMenuItem.Click += new System.EventHandler(this.RocketLeagueToolStripMenuItem_Click);
             // 
@@ -404,6 +404,7 @@ namespace AFK_Assist
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AFK Assist";
+            this.TopMost = true;
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarLength)).EndInit();
@@ -454,10 +455,10 @@ namespace AFK_Assist
         private System.Windows.Forms.CheckBox AKeyCheckBox;
         private System.Windows.Forms.CheckBox WKeyCheckBox;
         private System.Windows.Forms.ToolStripMenuItem PresetsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem GTAToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RocketLeagueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ClearToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem GTAToolStripMenuItem;
     }
 }
 
