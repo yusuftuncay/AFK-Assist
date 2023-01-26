@@ -83,32 +83,9 @@ namespace AFK_Assist
                 EnableConfigurations();
                 SetTimerInterval(1);
 
-                if (Math.Round(Stopwatch.Elapsed.TotalSeconds, 0) >= 60)
-                {
-                    if (Stopwatch.Elapsed.TotalMinutes <= 1)
-                    {
-                        int minutes = (int)Stopwatch.Elapsed.TotalMinutes;
-                        int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60));
-                        MessageBox.Show("Elapsed time " + minutes.ToString("00") + "min " + seconds.ToString("00") + "sec");
-                    }
-                    else
-                    {
-                        int minutes = (int)Stopwatch.Elapsed.TotalMinutes;
-                        int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60));
-                        MessageBox.Show("Elapsed time " + minutes.ToString("0") + "min " + seconds.ToString("00") + "sec");
-                    }
-                }
-                else
-                {
-                    if (Stopwatch.Elapsed.TotalSeconds <= 10)
-                    {
-                        MessageBox.Show("Elapsed time " + Stopwatch.Elapsed.TotalSeconds.ToString("0") + "s");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Elapsed time " + Stopwatch.Elapsed.TotalSeconds.ToString("00") + "s");
-                    }
-                }
+                int minutes = (int)Stopwatch.Elapsed.TotalMinutes;
+                int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60)); 
+                MessageBox.Show("Elapsed Time " + minutes.ToString("00") + ":" + seconds.ToString("00"), "Stopped");
             }
         }
         #endregion
