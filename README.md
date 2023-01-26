@@ -6,9 +6,11 @@ This program simulates movement using the WASD keys and can also perform left an
 
 This program is written in C# Forms.
 
+
 # NOTE
 
 Please be aware that not all games support virtual keyboard or mouse simulation. The results may vary, as some games may accept mouse simulation but not keyboard simulation, and vice versa. This is something that is out of my control. It's important to test the simulation on the specific game you want to use it with to ensure it works as expected. This probably is the way it is because some games may have anti-cheat mechanisms that detect and block virtual input injection.
+
 
 # How to use
 
@@ -23,8 +25,10 @@ There are also 2 preset options available for games like GTA5 and Rocket League,
 
 Note: Make sure that your game is running in the foreground and that the cursor is active within the game window for the simulation to work properly.
 
+
 # Downloads
 You can download the .exe file from the <a href="https://github.com/yusuf0142/AFK-Assist/releases">Releases</a> tab
+
 
 # Screenshots
 
