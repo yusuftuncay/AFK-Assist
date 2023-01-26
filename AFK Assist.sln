@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AFK Assist", "AFK Assist.csproj", "{B3821AAC-63E7-4C22-94F5-3C37F14BEF7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3821AAC-63E7-4C22-94F5-3C37F14BEF7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3821AAC-63E7-4C22-94F5-3C37F14BEF7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3821AAC-63E7-4C22-94F5-3C37F14BEF7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3821AAC-63E7-4C22-94F5-3C37F14BEF7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6862959D-1D87-49F6-B4D5-949D1817241C}
+	EndGlobalSection
+EndGlobal
