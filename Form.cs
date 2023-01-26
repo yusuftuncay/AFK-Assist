@@ -85,9 +85,18 @@ namespace AFK_Assist
 
                 if (Math.Round(Stopwatch.Elapsed.TotalSeconds, 0) >= 60)
                 {
-                    int minutes = (int)Stopwatch.Elapsed.TotalMinutes;
-                    int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60));
-                    MessageBox.Show("Elapsed time " + minutes.ToString("00") + "min " + seconds.ToString("00") + "sec");
+                    if (Stopwatch.Elapsed.TotalMinutes <= 1)
+                    {
+                        int minutes = (int)Stopwatch.Elapsed.TotalMinutes;
+                        int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60));
+                        MessageBox.Show("Elapsed time " + minutes.ToString("00") + "min " + seconds.ToString("00") + "sec");
+                    }
+                    else
+                    {
+                        int minutes = (int)Stopwatch.Elapsed.TotalMinutes;
+                        int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60));
+                        MessageBox.Show("Elapsed time " + minutes.ToString("0") + "min " + seconds.ToString("00") + "sec");
+                    }
                 }
                 else
                 {
@@ -235,7 +244,7 @@ namespace AFK_Assist
             LoopRanOnce = false;
             AltTabbed = false;
             LoopNumber = 0;
-            TextBoxLog.Clear();
+            TextBoxLog.Text = "";
         }
         #endregion
 
