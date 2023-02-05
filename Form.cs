@@ -356,8 +356,8 @@ namespace AFK_Assist
             AltTabCheckBox.CheckState = CheckState.Unchecked;
 
             MouseCheckBox.CheckState = CheckState.Indeterminate;
-            MouseClickLeftCheckBox.CheckState = CheckState.Checked;
-            MouseClickRightCheckBox.CheckState = CheckState.Unchecked;
+            MouseClickLeftCheckBox.CheckState = CheckState.Unchecked;
+            MouseClickRightCheckBox.CheckState = CheckState.Checked;
             KeyboardCheckBox.CheckState = CheckState.Unchecked;
             WKeyCheckBox.CheckState = CheckState.Unchecked;
             AKeyCheckBox.CheckState = CheckState.Unchecked;
@@ -369,6 +369,8 @@ namespace AFK_Assist
         }
         private void RocketLeagueToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AltTabCheckBox.CheckState = CheckState.Unchecked;
+
             MouseCheckBox.CheckState = CheckState.Checked;
             MouseClickLeftCheckBox.CheckState = CheckState.Checked;
             MouseClickRightCheckBox.CheckState = CheckState.Checked;
