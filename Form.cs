@@ -255,6 +255,7 @@ namespace AFK_Assist
 
             // Enable MenuStripItems
             HelpToolStripMenuItem.Enabled = true;
+            ExtraOptionsToolStripMenuItem.Enabled = true;
             PresetsToolStripMenuItem.Enabled = true;
 
             // Enable/Disable Buttons
@@ -274,6 +275,7 @@ namespace AFK_Assist
 
             // Disable MenuStripItems
             HelpToolStripMenuItem.Enabled = false;
+            ExtraOptionsToolStripMenuItem.Enabled = false;
             PresetsToolStripMenuItem.Enabled = false;
 
             // Disable/Enable Buttons
