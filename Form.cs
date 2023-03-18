@@ -43,9 +43,6 @@ namespace AFK_Assist
         public static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
         const int KEYEVENTF_EXTENDEDKEY = 0x0001; // Key Down
         const int KEYEVENTF_KEYUP = 0x0002; // Key Up
-
-        [DllImport("user32.dll")] // Process
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
         #endregion
 
         #region Buttons
@@ -93,19 +90,19 @@ namespace AFK_Assist
         #region Timer
         private void Timer_TickAsync(object sender, EventArgs e)
         {
-            //Process process = Process.GetProcessesByName("GTA5").FirstOrDefault(); // Get the GTA5 Process
-            //if (process != null && GTAToolStripMenuItem.Checked) // Check if the GTA is running
-            //{
-            //    IntPtr hWnd = process.MainWindowHandle;
-            //    SetForegroundWindow(hWnd);
+            // Alt + Tab
+            if (AltTabToolStripMenuItem.Checked && AltTabbed == false)
+            {
+                SendKeys.Send("%{TAB}");
 
-            //    SendKeys.Send("%{TAB}");
-            //    Thread.Sleep(400);
-            //    SendKeys.Send("%{TAB}");
-            //}
+                // Update Log
+                UpdateLog("* Alt + Tab");
+
+                AltTabbed = true; // Variable to prevent constant AltTabbing every TimerTick
+            }
 
             // Randomize Simulation
-            if (RandomizeSimulationToolStripMenuItem.Checked)
+            if (RandomizeToolStripMenuItem.Checked)
             {
                 // Variables
                 int loopRandInt = 0;
@@ -153,17 +150,7 @@ namespace AFK_Assist
                 AKey();
                 SKey();
                 DKey();
-            }
 
-            // Alt + Tab
-            if (AltTabCheckBox.Checked && AltTabbed == false)
-            {
-                SendKeys.Send("%{TAB}");
-
-                // Update Log
-                UpdateLog("* Alt + Tab");
-
-                AltTabbed = true; // Variable to prevent constant AltTabbing every TimerTick
             }
 
             // Keyboard Presses
@@ -258,7 +245,7 @@ namespace AFK_Assist
         private void EnableConfigurations()
         {
             // Enable all Checkboxes
-            AltTabCheckBox.Enabled = true;
+            AltTabToolStripMenuItem.Enabled = true;
             MouseCheckBox.Enabled = true;
             KeyboardCheckBox.Enabled = true;
 
@@ -267,7 +254,7 @@ namespace AFK_Assist
             TrackBarSpeed.Enabled = true;
 
             // Enable MenuStripItems
-            ExtraToolStripMenuItem.Enabled = true;
+            HelpToolStripMenuItem.Enabled = true;
             PresetsToolStripMenuItem.Enabled = true;
 
             // Enable/Disable Buttons
@@ -277,7 +264,7 @@ namespace AFK_Assist
         private void DisableConfigurations()
         {
             // Disable all Checkboxes
-            AltTabCheckBox.Enabled = false;
+            AltTabToolStripMenuItem.Enabled = false;
             MouseCheckBox.Enabled = false;
             KeyboardCheckBox.Enabled = false;
 
@@ -286,7 +273,7 @@ namespace AFK_Assist
             TrackBarSpeed.Enabled = false;
 
             // Disable MenuStripItems
-            ExtraToolStripMenuItem.Enabled = false;
+            HelpToolStripMenuItem.Enabled = false;
             PresetsToolStripMenuItem.Enabled = false;
 
             // Disable/Enable Buttons
@@ -398,7 +385,8 @@ namespace AFK_Assist
         private void ClearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Disable Checkboxes
-            AltTabCheckBox.Checked = false;
+            AltTabToolStripMenuItem.Checked = false;
+            RandomizeToolStripMenuItem.Checked = false;
             MouseCheckBox.Checked = false;
             MouseClickLeftCheckBox.Checked = false;
             MouseClickRightCheckBox.Checked = false;
@@ -430,7 +418,7 @@ namespace AFK_Assist
         }
         private void GTAToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AltTabCheckBox.CheckState = CheckState.Unchecked;
+            AltTabToolStripMenuItem.CheckState = CheckState.Unchecked;
 
             MouseCheckBox.CheckState = CheckState.Indeterminate;
             MouseClickLeftCheckBox.CheckState = CheckState.Unchecked;
@@ -446,7 +434,7 @@ namespace AFK_Assist
         }
         private void RocketLeagueToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AltTabCheckBox.CheckState = CheckState.Unchecked;
+            AltTabToolStripMenuItem.CheckState = CheckState.Unchecked;
 
             MouseCheckBox.CheckState = CheckState.Checked;
             MouseClickLeftCheckBox.CheckState = CheckState.Checked;

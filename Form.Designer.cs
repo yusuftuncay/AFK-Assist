@@ -20,11 +20,11 @@ namespace AFK_Assist
         {
             this.components = new System.ComponentModel.Container();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
-            this.ExtraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExtraOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AltTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RandomizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ClearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.TutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RandomizeSimulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PresetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GTAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RocketLeagueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -35,7 +35,6 @@ namespace AFK_Assist
             this.ButtonStart = new System.Windows.Forms.Button();
             this.ButtonStop = new System.Windows.Forms.Button();
             this.LabelLength = new System.Windows.Forms.Label();
-            this.AltTabCheckBox = new System.Windows.Forms.CheckBox();
             this.MousePanel = new System.Windows.Forms.Panel();
             this.MouseClickRightCheckBox = new System.Windows.Forms.CheckBox();
             this.MouseClickLeftCheckBox = new System.Windows.Forms.CheckBox();
@@ -51,6 +50,7 @@ namespace AFK_Assist
             this.GroupBox3 = new System.Windows.Forms.GroupBox();
             this.GroupBox4 = new System.Windows.Forms.GroupBox();
             this.TextBoxLog = new System.Windows.Forms.TextBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarLength)).BeginInit();
             this.MousePanel.SuspendLayout();
@@ -66,7 +66,8 @@ namespace AFK_Assist
             // 
             this.MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ExtraToolStripMenuItem,
+            this.HelpToolStripMenuItem,
+            this.ExtraOptionsToolStripMenuItem,
             this.PresetsToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
@@ -75,16 +76,37 @@ namespace AFK_Assist
             this.MenuStrip.TabIndex = 0;
             this.MenuStrip.Text = "MenuStrip";
             // 
-            // ExtraToolStripMenuItem
+            // HelpToolStripMenuItem
             // 
-            this.ExtraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.RandomizeSimulationToolStripMenuItem,
-            this.ClearToolStripMenuItem,
-            this.ToolStripSeparator1,
-            this.TutorialToolStripMenuItem});
-            this.ExtraToolStripMenuItem.Name = "ExtraToolStripMenuItem";
-            this.ExtraToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
-            this.ExtraToolStripMenuItem.Text = "Extra";
+            this.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem";
+            this.HelpToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.HelpToolStripMenuItem.Text = "How To Use";
+            this.HelpToolStripMenuItem.Click += new System.EventHandler(this.TutorialToolStripMenuItem_Click);
+            // 
+            // ExtraOptionsToolStripMenuItem
+            // 
+            this.ExtraOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AltTabToolStripMenuItem,
+            this.RandomizeToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.ClearToolStripMenuItem});
+            this.ExtraOptionsToolStripMenuItem.Name = "ExtraOptionsToolStripMenuItem";
+            this.ExtraOptionsToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
+            this.ExtraOptionsToolStripMenuItem.Text = "Extra Options";
+            // 
+            // AltTabToolStripMenuItem
+            // 
+            this.AltTabToolStripMenuItem.CheckOnClick = true;
+            this.AltTabToolStripMenuItem.Name = "AltTabToolStripMenuItem";
+            this.AltTabToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.AltTabToolStripMenuItem.Text = "Alt + Tab into game";
+            // 
+            // RandomizeToolStripMenuItem
+            // 
+            this.RandomizeToolStripMenuItem.CheckOnClick = true;
+            this.RandomizeToolStripMenuItem.Name = "RandomizeToolStripMenuItem";
+            this.RandomizeToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.RandomizeToolStripMenuItem.Text = "Randomize Simulation";
             // 
             // ClearToolStripMenuItem
             // 
@@ -92,25 +114,6 @@ namespace AFK_Assist
             this.ClearToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.ClearToolStripMenuItem.Text = "Clear all fields";
             this.ClearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
-            // 
-            // ToolStripSeparator1
-            // 
-            this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(190, 6);
-            // 
-            // TutorialToolStripMenuItem
-            // 
-            this.TutorialToolStripMenuItem.Name = "TutorialToolStripMenuItem";
-            this.TutorialToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.TutorialToolStripMenuItem.Text = "How to use";
-            this.TutorialToolStripMenuItem.Click += new System.EventHandler(this.TutorialToolStripMenuItem_Click);
-            // 
-            // RandomizeSimulationToolStripMenuItem
-            // 
-            this.RandomizeSimulationToolStripMenuItem.CheckOnClick = true;
-            this.RandomizeSimulationToolStripMenuItem.Name = "RandomizeSimulationToolStripMenuItem";
-            this.RandomizeSimulationToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.RandomizeSimulationToolStripMenuItem.Text = "Randomize Simulation";
             // 
             // PresetsToolStripMenuItem
             // 
@@ -156,7 +159,7 @@ namespace AFK_Assist
             // MouseCheckBox
             // 
             this.MouseCheckBox.AutoSize = true;
-            this.MouseCheckBox.Location = new System.Drawing.Point(7, 43);
+            this.MouseCheckBox.Location = new System.Drawing.Point(7, 20);
             this.MouseCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MouseCheckBox.Name = "MouseCheckBox";
             this.MouseCheckBox.Size = new System.Drawing.Size(94, 17);
@@ -168,7 +171,7 @@ namespace AFK_Assist
             // KeyboardCheckBox
             // 
             this.KeyboardCheckBox.AutoSize = true;
-            this.KeyboardCheckBox.Location = new System.Drawing.Point(7, 66);
+            this.KeyboardCheckBox.Location = new System.Drawing.Point(7, 43);
             this.KeyboardCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.KeyboardCheckBox.Name = "KeyboardCheckBox";
             this.KeyboardCheckBox.Size = new System.Drawing.Size(81, 17);
@@ -210,24 +213,13 @@ namespace AFK_Assist
             this.LabelLength.Text = "1 minute";
             this.LabelLength.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // AltTabCheckBox
-            // 
-            this.AltTabCheckBox.AutoSize = true;
-            this.AltTabCheckBox.Location = new System.Drawing.Point(7, 20);
-            this.AltTabCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.AltTabCheckBox.Name = "AltTabCheckBox";
-            this.AltTabCheckBox.Size = new System.Drawing.Size(78, 17);
-            this.AltTabCheckBox.TabIndex = 6;
-            this.AltTabCheckBox.Text = "Alt + Tab";
-            this.AltTabCheckBox.UseVisualStyleBackColor = true;
-            // 
             // MousePanel
             // 
             this.MousePanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.MousePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.MousePanel.Controls.Add(this.MouseClickRightCheckBox);
             this.MousePanel.Controls.Add(this.MouseClickLeftCheckBox);
-            this.MousePanel.Location = new System.Drawing.Point(7, 89);
+            this.MousePanel.Location = new System.Drawing.Point(7, 66);
             this.MousePanel.Name = "MousePanel";
             this.MousePanel.Size = new System.Drawing.Size(131, 46);
             this.MousePanel.TabIndex = 10;
@@ -259,7 +251,6 @@ namespace AFK_Assist
             // 
             this.GroupBox1.Controls.Add(this.MousePanel);
             this.GroupBox1.Controls.Add(this.KeyboardPanel);
-            this.GroupBox1.Controls.Add(this.AltTabCheckBox);
             this.GroupBox1.Controls.Add(this.MouseCheckBox);
             this.GroupBox1.Controls.Add(this.KeyboardCheckBox);
             this.GroupBox1.Location = new System.Drawing.Point(12, 27);
@@ -277,7 +268,7 @@ namespace AFK_Assist
             this.KeyboardPanel.Controls.Add(this.SKeyCheckBox);
             this.KeyboardPanel.Controls.Add(this.AKeyCheckBox);
             this.KeyboardPanel.Controls.Add(this.WKeyCheckBox);
-            this.KeyboardPanel.Location = new System.Drawing.Point(7, 89);
+            this.KeyboardPanel.Location = new System.Drawing.Point(7, 66);
             this.KeyboardPanel.Name = "KeyboardPanel";
             this.KeyboardPanel.Size = new System.Drawing.Size(68, 92);
             this.KeyboardPanel.TabIndex = 11;
@@ -392,6 +383,11 @@ namespace AFK_Assist
             this.TextBoxLog.Size = new System.Drawing.Size(149, 218);
             this.TextBoxLog.TabIndex = 0;
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(190, 6);
+            // 
             // Form
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -437,9 +433,9 @@ namespace AFK_Assist
 
         #endregion
 
+        #region Extra
         private System.Windows.Forms.MenuStrip MenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem ExtraToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem TutorialToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem HelpToolStripMenuItem;
         private System.Windows.Forms.Timer MainTimer;
         private System.Windows.Forms.TrackBar TrackBarLength;
         private System.Windows.Forms.CheckBox MouseCheckBox;
@@ -447,7 +443,6 @@ namespace AFK_Assist
         private System.Windows.Forms.Button ButtonStart;
         private System.Windows.Forms.Button ButtonStop;
         private System.Windows.Forms.Label LabelLength;
-        private System.Windows.Forms.CheckBox AltTabCheckBox;
         private System.Windows.Forms.Panel MousePanel;
         private System.Windows.Forms.CheckBox MouseClickRightCheckBox;
         private System.Windows.Forms.CheckBox MouseClickLeftCheckBox;
@@ -465,10 +460,14 @@ namespace AFK_Assist
         private System.Windows.Forms.CheckBox WKeyCheckBox;
         private System.Windows.Forms.ToolStripMenuItem PresetsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RocketLeagueToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ClearToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator ToolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem GTAToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem RandomizeSimulationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExtraOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RandomizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ClearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AltTabToolStripMenuItem;
+        #endregion
+
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
