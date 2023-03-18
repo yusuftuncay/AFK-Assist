@@ -14,8 +14,8 @@ Please be aware that not all games support virtual keyboard or mouse simulation.
 
 # How to use
 
-1. [Optional] Toggle the Alt + Tab feature on or off, switches to the game automatically
-2. [Optional] Select "Randomize simulation" in the "Extra" tab to randomize key presses
+1. ```Optional``` Toggle the Alt + Tab feature on or off, switches to the game automatically
+2. ```Optional``` Select "Randomize simulation" in the "Extra" tab to randomize key presses
 3. Select your preferred simulation option, mouse and/or keyboard. Choose at least one option from keyboard or mouse for the program to run. You can choose the specific keys you want to simulate (WASD keys), and also the mouse buttons you want to simulate (left and/or right click)
 4. Choose the amount of simulations you want to perform per minute, ranging from 1 per minute to 10 per minute
 5. Select the total duration for the simulation, between 1 minute and 120
@@ -33,4 +33,4 @@ You can download the .exe file from the <a href="https://github.com/yusuf0142/AF
 
 # Screenshots
 
-![image](https://user-images.githubusercontent.com/70652416/214882146-ae3850a4-9543-47e0-9f5d-d8e2015f7b50.png)
+![image](https://user-images.githubusercontent.com/70652416/226140202-485bd067-a7c2-48bd-8d3e-1fc87bf00f5f.png)
