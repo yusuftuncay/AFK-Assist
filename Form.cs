@@ -3,29 +3,32 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace AFK_Assist
 {
     public partial class Form : System.Windows.Forms.Form
     {
+        #region Variables / Classes
+        readonly Stopwatch Stopwatch = new Stopwatch();
+        readonly Random Random = new Random();
+        bool LoopRanOnce = false;
+        bool AltTabbed = false;
+        int LoopNumber = 0;
+        #endregion
+
         #region Main
         public Form()
         {
             InitializeComponent();
         }
-        #endregion
-
-        #region Variables
-        readonly Stopwatch Stopwatch = new Stopwatch();
-        bool LoopRanOnce = false;
-        bool AltTabbed = false;
-        int LoopNumber = 0;
         #endregion
 
         #region Import and use DLL
@@ -90,20 +93,70 @@ namespace AFK_Assist
         #region Timer
         private void Timer_TickAsync(object sender, EventArgs e)
         {
-            
-            Process process = Process.GetProcessesByName("GTA5").FirstOrDefault(); // Get the GTA5 Process
-            if (process != null && GTAToolStripMenuItem.Checked) // Check if the GTA is running
-            {
-                IntPtr hWnd = process.MainWindowHandle;
-                SetForegroundWindow(hWnd);
+            //Process process = Process.GetProcessesByName("GTA5").FirstOrDefault(); // Get the GTA5 Process
+            //if (process != null && GTAToolStripMenuItem.Checked) // Check if the GTA is running
+            //{
+            //    IntPtr hWnd = process.MainWindowHandle;
+            //    SetForegroundWindow(hWnd);
 
-                SendKeys.Send("%{TAB}");
-                Thread.Sleep(400);
-                SendKeys.Send("%{TAB}");
+            //    SendKeys.Send("%{TAB}");
+            //    Thread.Sleep(400);
+            //    SendKeys.Send("%{TAB}");
+            //}
+
+            // Randomize Simulation
+            if (RandomizeSimulationToolStripMenuItem.Checked)
+            {
+                // Variables
+                int loopRandInt = 0;
+                bool WKeyPressed = false;
+                bool AKeyPressed = false;
+                bool SKeyPressed = false;
+                bool DKeyPressed = false;
+
+                while (loopRandInt != 4)
+                {
+                    // Randomizes Key Presses
+                    int randInt = Random.Next(4);
+                    if (randInt == 0 && WKeyPressed == false)
+                    {
+                        WKey();
+                        WKeyPressed = true;
+                    }
+                    else if (randInt == 1 && AKeyPressed == false)
+                    {
+                        AKey();
+                        AKeyPressed = true;
+                    }
+                    else if (randInt == 2 && SKeyPressed == false)
+                    {
+                        SKey();
+                        SKeyPressed = true;
+                    }
+                    else if (randInt == 3 && DKeyPressed == false)
+                    {
+                        DKey();
+                        DKeyPressed = true;
+                    }
+                    else
+                    {
+                        // If the Randomizer chooses a Key that was already pressed, it loops again to (hopefully) choose another key
+                        loopRandInt--;
+                    }
+
+                    loopRandInt++;
+                }
             }
-            
+            else
+            {
+                WKey();
+                AKey();
+                SKey();
+                DKey();
+            }
+
             // Alt + Tab
-            if (AltTabCheckBox.Checked == true && AltTabbed == false)
+            if (AltTabCheckBox.Checked && AltTabbed == false)
             {
                 SendKeys.Send("%{TAB}");
 
@@ -113,42 +166,58 @@ namespace AFK_Assist
                 AltTabbed = true; // Variable to prevent constant AltTabbing every TimerTick
             }
 
-            // Keyboard Keys
-            if (WKeyCheckBox.Checked)
+            // Keyboard Presses
+            void WKey()
             {
-                keybd_event((byte)Keys.W, 0x45, KEYEVENTF_EXTENDEDKEY, 0); // Press W key
-                Thread.Sleep(800);
-                keybd_event((byte)Keys.W, 0x45, KEYEVENTF_KEYUP, 0); // Release W key
+                // Keyboard Key W
+                if (WKeyCheckBox.Checked)
+                {
+                    keybd_event((byte)Keys.W, 0x45, KEYEVENTF_EXTENDEDKEY, 0); // Press W key
+                    Thread.Sleep(800);
+                    keybd_event((byte)Keys.W, 0x45, KEYEVENTF_KEYUP, 0); // Release W key
 
-                // Update Log
-                UpdateLog("* W Key");
+                    // Update Log
+                    UpdateLog("* W Key");
+                }
             }
-            if (AKeyCheckBox.Checked)
+            void AKey()
             {
-                keybd_event((byte)Keys.A, 0x45, KEYEVENTF_EXTENDEDKEY, 0); // Press A key
-                Thread.Sleep(800);
-                keybd_event((byte)Keys.A, 0x45, KEYEVENTF_KEYUP, 0); // Release A key
+                // Keyboard Key A
+                if (AKeyCheckBox.Checked)
+                {
+                    keybd_event((byte)Keys.A, 0x45, KEYEVENTF_EXTENDEDKEY, 0); // Press A key
+                    Thread.Sleep(800);
+                    keybd_event((byte)Keys.A, 0x45, KEYEVENTF_KEYUP, 0); // Release A key
 
-                // Update Log
-                UpdateLog("* A Key");
+                    // Update Log
+                    UpdateLog("* A Key");
+                }
             }
-            if (SKeyCheckBox.Checked)
+            void SKey()
             {
-                keybd_event((byte)Keys.S, 0x45, KEYEVENTF_EXTENDEDKEY, 0); // Press S key
-                Thread.Sleep(800);
-                keybd_event((byte)Keys.S, 0x45, KEYEVENTF_KEYUP, 0); // Release S key
+                // Keyboard Key S
+                if (SKeyCheckBox.Checked)
+                {
+                    keybd_event((byte)Keys.S, 0x45, KEYEVENTF_EXTENDEDKEY, 0); // Press S key
+                    Thread.Sleep(800);
+                    keybd_event((byte)Keys.S, 0x45, KEYEVENTF_KEYUP, 0); // Release S key
 
-                // Update Log
-                UpdateLog("* S key");
+                    // Update Log
+                    UpdateLog("* S key");
+                }
             }
-            if (DKeyCheckBox.Checked)
+            void DKey()
             {
-                keybd_event((byte)Keys.D, 0x45, KEYEVENTF_EXTENDEDKEY, 0); // Press D key
-                Thread.Sleep(800);
-                keybd_event((byte)Keys.D, 0x45, KEYEVENTF_KEYUP, 0); // Release D key
+                // Keyboard Key D
+                if (DKeyCheckBox.Checked)
+                {
+                    keybd_event((byte)Keys.D, 0x45, KEYEVENTF_EXTENDEDKEY, 0); // Press D key
+                    Thread.Sleep(800);
+                    keybd_event((byte)Keys.D, 0x45, KEYEVENTF_KEYUP, 0); // Release D key
 
-                // Update Log
-                UpdateLog("* D key");
+                    // Update Log
+                    UpdateLog("* D key");
+                }
             }
 
             // Mouse Buttons
@@ -171,10 +240,12 @@ namespace AFK_Assist
                 UpdateLog("* Right mouse");
             }
 
-            // Update Log
             LoopNumber ++;
+
+            // Update Log
             UpdateLog($"Finished Loop {LoopNumber}\n\r");
 
+            // Set Timer Interval to users preffered Value
             SetTimerInterval(60 / TrackBarSpeed.Value);
         }
         public void SetTimerInterval(int seconds) // Sets Timer Interval to X amount of seconds
@@ -349,7 +420,13 @@ namespace AFK_Assist
         }
         private void TutorialToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("1. Toggle the Alt + Tab feature on or off, depending on whether or not you want the program to switch to the game automatically\r\n\r\n2. Select your preferred simulation option, mouse and/or keyboard. Choose at least one option from keyboard or mouse for the program to run. You can choose the specific keys you want to simulate (WASD keys), and also the mouse buttons you want to simulate (left and/or right click)\r\n\r\n3. Choose the amount of simulations you want to perform per minute, ranging from 1 per minute to 10 per minute\r\n\r\n4. Select the total duration for the simulation, between 1 minute and 120\r\n\r\n5. Press \"Start\" to begin the simulation. You can also stop the simulation at any time by pressing \"Stop\"\r\n\r\n6. A log will be available in real-time, allowing you to monitor the progress of the simulation", "");
+            MessageBox.Show("1. Toggle the Alt + Tab feature on or off, depending on whether or not you want the program to switch to the game automatically\r\n\r\n" +
+                "2. Select \"Randomize simulation\" in the \"Extra\" tab if you want the application to randomize key presses\r\n\r\n" +
+                "3. Select your preferred simulation option, mouse and/or keyboard. Choose at least one option from keyboard or mouse for the program to run. You can choose the specific keys you want to simulate (WASD keys), and also the mouse buttons you want to simulate (left and/or right click)\r\n\r\n" +
+                "4. Choose the amount of simulations you want to perform per minute, ranging from 1 per minute to 10 per minute\r\n\r\n" +
+                "5. Select the total duration for the simulation, between 1 minute and 120\r\n\r\n" +
+                "6. Press \"Start\" to begin the simulation. You can also stop the simulation at any time by pressing \"Stop\"\r\n\r\n" +
+                "7. A log will be available in real-time, allowing you to monitor the progress of the simulation", "");
         }
         private void GTAToolStripMenuItem_Click(object sender, EventArgs e)
         {

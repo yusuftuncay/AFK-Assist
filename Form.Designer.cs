@@ -24,6 +24,7 @@ namespace AFK_Assist
             this.ClearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.TutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RandomizeSimulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PresetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GTAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RocketLeagueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,6 +78,7 @@ namespace AFK_Assist
             // ExtraToolStripMenuItem
             // 
             this.ExtraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RandomizeSimulationToolStripMenuItem,
             this.ClearToolStripMenuItem,
             this.ToolStripSeparator1,
             this.TutorialToolStripMenuItem});
@@ -87,21 +89,28 @@ namespace AFK_Assist
             // ClearToolStripMenuItem
             // 
             this.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem";
-            this.ClearToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.ClearToolStripMenuItem.Text = "Clear";
+            this.ClearToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.ClearToolStripMenuItem.Text = "Clear all fields";
             this.ClearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
             // 
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(131, 6);
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(190, 6);
             // 
             // TutorialToolStripMenuItem
             // 
             this.TutorialToolStripMenuItem.Name = "TutorialToolStripMenuItem";
-            this.TutorialToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.TutorialToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.TutorialToolStripMenuItem.Text = "How to use";
             this.TutorialToolStripMenuItem.Click += new System.EventHandler(this.TutorialToolStripMenuItem_Click);
+            // 
+            // RandomizeSimulationToolStripMenuItem
+            // 
+            this.RandomizeSimulationToolStripMenuItem.CheckOnClick = true;
+            this.RandomizeSimulationToolStripMenuItem.Name = "RandomizeSimulationToolStripMenuItem";
+            this.RandomizeSimulationToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.RandomizeSimulationToolStripMenuItem.Text = "Randomize Simulation";
             // 
             // PresetsToolStripMenuItem
             // 
@@ -115,14 +124,14 @@ namespace AFK_Assist
             // GTAToolStripMenuItem
             // 
             this.GTAToolStripMenuItem.Name = "GTAToolStripMenuItem";
-            this.GTAToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.GTAToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.GTAToolStripMenuItem.Text = "Grand Theft Auto 5";
             this.GTAToolStripMenuItem.Click += new System.EventHandler(this.GTAToolStripMenuItem_Click);
             // 
             // RocketLeagueToolStripMenuItem
             // 
             this.RocketLeagueToolStripMenuItem.Name = "RocketLeagueToolStripMenuItem";
-            this.RocketLeagueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.RocketLeagueToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.RocketLeagueToolStripMenuItem.Text = "Rocket League";
             this.RocketLeagueToolStripMenuItem.Click += new System.EventHandler(this.RocketLeagueToolStripMenuItem_Click);
             // 
@@ -138,7 +147,7 @@ namespace AFK_Assist
             this.TrackBarLength.Maximum = 120;
             this.TrackBarLength.Minimum = 1;
             this.TrackBarLength.Name = "TrackBarLength";
-            this.TrackBarLength.Size = new System.Drawing.Size(186, 45);
+            this.TrackBarLength.Size = new System.Drawing.Size(186, 53);
             this.TrackBarLength.TabIndex = 0;
             this.TrackBarLength.TickFrequency = 10;
             this.TrackBarLength.Value = 1;
@@ -336,7 +345,7 @@ namespace AFK_Assist
             this.TrackBarSpeed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.TrackBarSpeed.Minimum = 1;
             this.TrackBarSpeed.Name = "TrackBarSpeed";
-            this.TrackBarSpeed.Size = new System.Drawing.Size(186, 45);
+            this.TrackBarSpeed.Size = new System.Drawing.Size(186, 53);
             this.TrackBarSpeed.TabIndex = 2;
             this.TrackBarSpeed.Value = 1;
             this.TrackBarSpeed.Scroll += new System.EventHandler(this.TrackBarSpeed_Scroll);
@@ -459,6 +468,7 @@ namespace AFK_Assist
         private System.Windows.Forms.ToolStripMenuItem ClearToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem GTAToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RandomizeSimulationToolStripMenuItem;
     }
 }
 
