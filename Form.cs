@@ -137,7 +137,7 @@ namespace AFK_Assist
                     }
                     else
                     {
-                        // If the Randomizer chooses a Key that was already pressed, it loops again to (hopefully) choose another key
+                        // If the Randomizer chooses a Key that was already pressed, it loops again to choose another key
                         loopRandInt--;
                     }
 
