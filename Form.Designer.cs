@@ -24,6 +24,8 @@ namespace AFK_Assist
             this.ExtraOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AltTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RandomizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AzertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ClearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PresetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GTAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +52,6 @@ namespace AFK_Assist
             this.GroupBox3 = new System.Windows.Forms.GroupBox();
             this.GroupBox4 = new System.Windows.Forms.GroupBox();
             this.TextBoxLog = new System.Windows.Forms.TextBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarLength)).BeginInit();
             this.MousePanel.SuspendLayout();
@@ -88,6 +89,7 @@ namespace AFK_Assist
             this.ExtraOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AltTabToolStripMenuItem,
             this.RandomizeToolStripMenuItem,
+            this.AzertyToolStripMenuItem,
             this.toolStripSeparator1,
             this.ClearToolStripMenuItem});
             this.ExtraOptionsToolStripMenuItem.Name = "ExtraOptionsToolStripMenuItem";
@@ -107,6 +109,19 @@ namespace AFK_Assist
             this.RandomizeToolStripMenuItem.Name = "RandomizeToolStripMenuItem";
             this.RandomizeToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.RandomizeToolStripMenuItem.Text = "Randomize Simulation";
+            // 
+            // AzertyToolStripMenuItem
+            // 
+            this.AzertyToolStripMenuItem.CheckOnClick = true;
+            this.AzertyToolStripMenuItem.Name = "AzertyToolStripMenuItem";
+            this.AzertyToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.AzertyToolStripMenuItem.Text = "Azerty Layout";
+            this.AzertyToolStripMenuItem.Click += new System.EventHandler(this.AzertyToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(190, 6);
             // 
             // ClearToolStripMenuItem
             // 
@@ -150,7 +165,7 @@ namespace AFK_Assist
             this.TrackBarLength.Maximum = 120;
             this.TrackBarLength.Minimum = 1;
             this.TrackBarLength.Name = "TrackBarLength";
-            this.TrackBarLength.Size = new System.Drawing.Size(186, 53);
+            this.TrackBarLength.Size = new System.Drawing.Size(186, 45);
             this.TrackBarLength.TabIndex = 0;
             this.TrackBarLength.TickFrequency = 10;
             this.TrackBarLength.Value = 1;
@@ -336,7 +351,7 @@ namespace AFK_Assist
             this.TrackBarSpeed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.TrackBarSpeed.Minimum = 1;
             this.TrackBarSpeed.Name = "TrackBarSpeed";
-            this.TrackBarSpeed.Size = new System.Drawing.Size(186, 53);
+            this.TrackBarSpeed.Size = new System.Drawing.Size(186, 45);
             this.TrackBarSpeed.TabIndex = 2;
             this.TrackBarSpeed.Value = 1;
             this.TrackBarSpeed.Scroll += new System.EventHandler(this.TrackBarSpeed_Scroll);
@@ -382,11 +397,6 @@ namespace AFK_Assist
             this.TextBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TextBoxLog.Size = new System.Drawing.Size(149, 218);
             this.TextBoxLog.TabIndex = 0;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(190, 6);
             // 
             // Form
             // 
@@ -468,6 +478,7 @@ namespace AFK_Assist
         #endregion
 
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem AzertyToolStripMenuItem;
     }
 }
 

@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Text;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace AFK_Assist
 {
@@ -82,7 +76,7 @@ namespace AFK_Assist
             SetTimerInterval(1);
 
             int minutes = (int)Stopwatch.Elapsed.TotalMinutes;
-            int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60)); 
+            int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60));
             MessageBox.Show("Elapsed Time " + minutes.ToString("00") + ":" + seconds.ToString("00"), "Stopped");
         }
         #endregion
@@ -117,12 +111,26 @@ namespace AFK_Assist
                     int randInt = Random.Next(4);
                     if (randInt == 0 && WKeyPressed == false)
                     {
-                        WKey();
+                        if (AzertyToolStripMenuItem.Checked)
+                        {
+                            ZKey();
+                        }
+                        else
+                        {
+                            WKey();
+                        }
                         WKeyPressed = true;
                     }
                     else if (randInt == 1 && AKeyPressed == false)
                     {
-                        AKey();
+                        if (AzertyToolStripMenuItem.Checked)
+                        {
+                            ZKey();
+                        }
+                        else
+                        {
+                            AKey();
+                        }
                         AKeyPressed = true;
                     }
                     else if (randInt == 2 && SKeyPressed == false)
@@ -146,14 +154,47 @@ namespace AFK_Assist
             }
             else
             {
-                WKey();
-                AKey();
+                if (AzertyToolStripMenuItem.Checked)
+                {
+                    ZKey();
+                    QKey();
+                }
+                else
+                {
+                    WKey();
+                    AKey();
+                }
                 SKey();
                 DKey();
-
             }
 
             // Keyboard Presses
+            void ZKey()
+            {
+                // Keyboard Key Z
+                if (WKeyCheckBox.Checked)
+                {
+                    keybd_event((byte)Keys.Z, 0x45, KEYEVENTF_EXTENDEDKEY, 0); // Press Z key
+                    Thread.Sleep(800);
+                    keybd_event((byte)Keys.Z, 0x45, KEYEVENTF_KEYUP, 0); // Release Z key
+
+                    // Update Log
+                    UpdateLog("* Z Key");
+                }
+            }
+            void QKey()
+            {
+                // Keyboard Key A
+                if (AKeyCheckBox.Checked)
+                {
+                    keybd_event((byte)Keys.Q, 0x45, KEYEVENTF_EXTENDEDKEY, 0); // Press Q key
+                    Thread.Sleep(800);
+                    keybd_event((byte)Keys.Q, 0x45, KEYEVENTF_KEYUP, 0); // Release Q key
+
+                    // Update Log
+                    UpdateLog("* Q Key");
+                }
+            }
             void WKey()
             {
                 // Keyboard Key W
@@ -227,7 +268,7 @@ namespace AFK_Assist
                 UpdateLog("* Right mouse");
             }
 
-            LoopNumber ++;
+            LoopNumber++;
 
             // Update Log
             UpdateLog($"Finished Loop {LoopNumber}\n\r");
@@ -389,10 +430,13 @@ namespace AFK_Assist
             // Disable Checkboxes
             AltTabToolStripMenuItem.Checked = false;
             RandomizeToolStripMenuItem.Checked = false;
+            AzertyToolStripMenuItem.Checked = false;
+
             MouseCheckBox.Checked = false;
             MouseClickLeftCheckBox.Checked = false;
             MouseClickRightCheckBox.Checked = false;
             KeyboardCheckBox.Checked = false;
+
             WKeyCheckBox.Checked = false;
             AKeyCheckBox.Checked = false;
             SKeyCheckBox.Checked = false;
@@ -449,6 +493,19 @@ namespace AFK_Assist
 
             MousePanel.Visible = false;
             KeyboardPanel.Visible = false;
+        }
+        private void AzertyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (AzertyToolStripMenuItem.Checked)
+            {
+                WKeyCheckBox.Text = "Z Key";
+                AKeyCheckBox.Text = "Q Key";
+            }
+            else
+            {
+                WKeyCheckBox.Text = "W Key";
+                AKeyCheckBox.Text = "A Key";
+            }
         }
         #endregion
 
