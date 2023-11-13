@@ -33,4 +33,4 @@ You can download the .exe file from the <a href="https://github.com/yusuf0142/AF
 
 # Screenshots
 
-![image](https://user-images.githubusercontent.com/70652416/226140202-485bd067-a7c2-48bd-8d3e-1fc87bf00f5f.png)
+![image](https://github.com/yusuftuncay/AFK-Assist/assets/70652416/06708d3a-86ff-4ed5-8ff2-8b4565e2fbe8)
