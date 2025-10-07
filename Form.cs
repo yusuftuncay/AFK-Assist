@@ -5,24 +5,46 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace AFK_Assist
 {
     public partial class Form : System.Windows.Forms.Form
     {
-        private readonly Stopwatch Stopwatch = new Stopwatch();
-        private readonly Random Random = new Random();
-        private bool LoopRanOnce = false;
-        private bool AltTabbed = false;
-        private int LoopNumber = 0;
+        private readonly Stopwatch stopwatch = new Stopwatch();
+        private readonly Random random = new Random();
+        private readonly Timer elapsedTimer = new Timer();
+        private bool loopRanOnce = false;
+        private bool altTabbed = false;
+        private int loopNumber = 0;
+        private int totalLoops = 0;
+        private CancellationTokenSource cancellationTokenSource;
 
         public Form()
         {
             InitializeComponent();
+            InitializeElapsedTimer();
+            InitializeMenuStripHover();
         }
 
-        #region Import and use DLL
-        // Mouse
+        private void InitializeElapsedTimer()
+        {
+            elapsedTimer.Interval = 1000;
+            elapsedTimer.Tick += ElapsedTimer_Tick;
+        }
+
+        private void InitializeMenuStripHover()
+        {
+            // Enable Menu Hover Behavior
+            MenuStrip.MenuActivate += (s, e) => { };
+        }
+
+        private void ElapsedTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateElapsedTimeDisplay();
+        }
+
+        #region Import And Use DLL
         [DllImport("user32.dll")]
         public static extern void mouse_event(
             uint dwFlags,
@@ -37,274 +59,316 @@ namespace AFK_Assist
         const uint MOUSEEVENTF_RIGHTDOWN = 0x08;
         const uint MOUSEEVENTF_RIGHTUP = 0x10;
 
-        // Keyboard
         [DllImport("user32.dll")]
         public static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
 
-        // Key Down
         const int KEYEVENTF_EXTENDEDKEY = 0x0001;
-
-        // Key Up
         const int KEYEVENTF_KEYUP = 0x0002;
         #endregion
 
         #region Buttons
         private async void ButtonStart_ClickAsync(object sender, EventArgs e)
         {
-            // Check if Mouse and/or Keyboard CheckBoxes are checked
-            if (MouseCheckBox.Checked == false && KeyboardCheckBox.Checked == false)
+            // Check If Any Input Is Selected
+            bool hasMouseInput = MouseClickLeftCheckBox.Checked || MouseClickRightCheckBox.Checked;
+            bool hasKeyboardInput =
+                WKeyCheckBox.Checked
+                || AKeyCheckBox.Checked
+                || SKeyCheckBox.Checked
+                || DKeyCheckBox.Checked;
+
+            if (!hasMouseInput && !hasKeyboardInput)
             {
-                MouseCheckBox.BackColor = Color.Red;
-                KeyboardCheckBox.BackColor = Color.Red;
+                // Highlight
+                MouseClickLeftCheckBox.ForeColor = Color.Red;
+                MouseClickRightCheckBox.ForeColor = Color.Red;
+                WKeyCheckBox.ForeColor = Color.Red;
+                AKeyCheckBox.ForeColor = Color.Red;
+                SKeyCheckBox.ForeColor = Color.Red;
+                DKeyCheckBox.ForeColor = Color.Red;
 
                 DialogResult result = MessageBox.Show(
-                    "Please Select an Input",
+                    "Please Select At Least One Input",
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
+
                 if (result == DialogResult.OK)
                 {
-                    MouseCheckBox.BackColor = Color.Transparent;
-                    KeyboardCheckBox.BackColor = Color.Transparent;
+                    // Reset Colors
+                    MouseClickLeftCheckBox.ForeColor = SystemColors.ControlText;
+                    MouseClickRightCheckBox.ForeColor = SystemColors.ControlText;
+                    WKeyCheckBox.ForeColor = SystemColors.ControlText;
+                    AKeyCheckBox.ForeColor = SystemColors.ControlText;
+                    SKeyCheckBox.ForeColor = SystemColors.ControlText;
+                    DKeyCheckBox.ForeColor = SystemColors.ControlText;
+                }
+                return;
+            }
+
+            // Calculate Total Loops
+            totalLoops = TrackBarLength.Value * TrackBarSpeed.Value;
+
+            // Reset And Start Timer
+            stopwatch.Reset();
+            MainTimer.Stop();
+            elapsedTimer.Stop();
+            SetTimerInterval(60 / TrackBarSpeed.Value);
+            loopNumber = 0;
+            altTabbed = false;
+            cancellationTokenSource = new CancellationTokenSource();
+
+            stopwatch.Start();
+            MainTimer.Start();
+            elapsedTimer.Start();
+            DisableConfigurations();
+
+            try
+            {
+                // Duration Based On TrackBar Value
+                await Task.Delay(TrackBarLength.Value * 60000, cancellationTokenSource.Token);
+
+                if (!cancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    ButtonStop.PerformClick();
                 }
             }
-            else
+            catch (TaskCanceledException)
             {
-                Stopwatch.Reset();
-                Stopwatch.Start();
-                MainTimer.Start();
-                DisableConfigurations();
-
-                // Length Determined by TrackBarLength Value
-                await Task.Delay(TrackBarLength.Value * 60000);
-
-                ButtonStop.PerformClick();
+                // Expected When Stop Is Clicked
             }
         }
 
         private void ButtonStop_Click(object sender, EventArgs e)
         {
-            Stopwatch.Stop();
+            // Cancel Running Task
+            cancellationTokenSource?.Cancel();
+
+            // Stop All Timers First
             MainTimer.Stop();
+            elapsedTimer.Stop();
+            stopwatch.Stop();
+
+            // Capture Final Elapsed Time Immediately
+            TimeSpan finalElapsedTime = stopwatch.Elapsed;
+
+            // Re Enable Controls
             EnableConfigurations();
             SetTimerInterval(1);
 
-            int minutes = (int)Stopwatch.Elapsed.TotalMinutes;
-            int seconds = (int)(Stopwatch.Elapsed.TotalSeconds - (minutes * 60));
-            MessageBox.Show(
-                "Elapsed Time " + minutes.ToString("00") + ":" + seconds.ToString("00"),
-                "Stopped"
-            );
+            // Calculate Elapsed Time From Snapshot
+            int hours = (int)finalElapsedTime.TotalHours;
+            int minutes = (int)finalElapsedTime.TotalMinutes % 60;
+            int seconds = (int)finalElapsedTime.TotalSeconds % 60;
+
+            // Update Display With Final Time
+            int totalMinutes = TrackBarLength.Value;
+            string displayTime =
+                totalMinutes >= 60 && hours > 0
+                    ? $"{hours:00}:{minutes:00}:{seconds:00}"
+                    : $"{minutes:00}:{seconds:00}";
+
+            LabelElapsedTime.Text = $"Elapsed: {displayTime}\nRemaining: 00:00";
+
+            // Format Time Message For MessageBox
+            //string timeMessage =
+            //    hours > 0
+            //        ? $"Elapsed Time {hours:00}:{minutes:00}:{seconds:00}"
+            //        : $"Elapsed Time {minutes:00}:{seconds:00}";
+
+            //MessageBox.Show(timeMessage, "Stopped");
         }
         #endregion
 
         #region Timer
-        private void Timer_TickAsync(object sender, EventArgs e)
+        private async void Timer_TickAsync(object sender, EventArgs e)
         {
-            // Alt + Tab
-            if (AltTabToolStripMenuItem.Checked && AltTabbed == false)
+            // Alt Tab Once Per Session
+            if (AltTabToolStripMenuItem.Checked && !altTabbed)
             {
                 SendKeys.Send("%{TAB}");
-
-                // Update Log
                 UpdateLog("* Alt + Tab");
-
-                AltTabbed = true;
+                altTabbed = true;
             }
 
-            // Randomize Simulation
+            // Execute Simulation Asynchronously
+            await ExecuteSimulationAsync();
+
+            loopNumber++;
+
+            // Calculate And Display Remaining Loops
+            int remainingLoops = totalLoops - loopNumber;
+            UpdateLog($"{remainingLoops} Loops Remaining\n\r");
+
+            // Update Timer Interval
+            SetTimerInterval(60 / TrackBarSpeed.Value);
+        }
+
+        private async Task ExecuteSimulationAsync()
+        {
+            // Execute Key Simulation
             if (RandomizeToolStripMenuItem.Checked)
+                await RandomizeKeyPressesAsync();
+            else
+                await SequentialKeyPressesAsync();
+
+            // Handle Mouse Clicks
+            await ExecuteMouseClicksAsync();
+        }
+
+        private async Task RandomizeKeyPressesAsync()
+        {
+            bool[] keysPressed = new bool[4];
+            int pressedCount = 0;
+
+            while (pressedCount < 4)
             {
-                // Variables
-                int loopRandInt = 0;
-                bool WKeyPressed = false;
-                bool AKeyPressed = false;
-                bool SKeyPressed = false;
-                bool DKeyPressed = false;
+                int keyIndex = random.Next(4);
 
-                while (loopRandInt != 4)
+                if (!keysPressed[keyIndex])
                 {
-                    // Randomizes Key Presses
-                    int randInt = Random.Next(4);
-                    if (randInt == 0 && WKeyPressed == false)
-                    {
-                        if (AzertyToolStripMenuItem.Checked)
-                            ZKey();
-                        else
-                            WKey();
-                        WKeyPressed = true;
-                    }
-                    else if (randInt == 1 && AKeyPressed == false)
-                    {
-                        if (AzertyToolStripMenuItem.Checked)
-                            ZKey();
-                        else
-                            AKey();
-                        AKeyPressed = true;
-                    }
-                    else if (randInt == 2 && SKeyPressed == false)
-                    {
-                        SKey();
-                        SKeyPressed = true;
-                    }
-                    else if (randInt == 3 && DKeyPressed == false)
-                    {
-                        DKey();
-                        DKeyPressed = true;
-                    }
-                    else
-                    {
-                        // Prevents Same Key Press
-                        loopRandInt--;
-                    }
-
-                    loopRandInt++;
+                    await ExecuteKeyPressAsync(keyIndex);
+                    keysPressed[keyIndex] = true;
+                    pressedCount++;
                 }
+            }
+        }
+
+        private async Task SequentialKeyPressesAsync()
+        {
+            if (AzertyToolStripMenuItem.Checked)
+            {
+                // Z & Q Key For Azerty
+                await ExecuteKeyPressAsync(4);
+                await ExecuteKeyPressAsync(5);
             }
             else
             {
-                if (AzertyToolStripMenuItem.Checked)
-                {
-                    ZKey();
-                    QKey();
-                }
-                else
-                {
-                    WKey();
-                    AKey();
-                }
-                SKey();
-                DKey();
+                // W & A Key For Qwerty
+                await ExecuteKeyPressAsync(0);
+                await ExecuteKeyPressAsync(1);
             }
 
-            #region Keyboard Presses
-            // Z Key
-            void ZKey()
+            // S & D Key For Both
+            await ExecuteKeyPressAsync(2);
+            await ExecuteKeyPressAsync(3);
+        }
+
+        private async Task ExecuteKeyPressAsync(int keyIndex)
+        {
+            switch (keyIndex)
             {
-                if (WKeyCheckBox.Checked)
-                {
-                    // Press
-                    keybd_event((byte)Keys.Z, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
-                    Thread.Sleep(800);
-                    // Release
-                    keybd_event((byte)Keys.Z, 0x45, KEYEVENTF_KEYUP, 0);
-
-                    // Update Log
-                    UpdateLog("* Z Key");
-                }
+                case 0:
+                    if (WKeyCheckBox.Checked)
+                        await PressAndReleaseKeyAsync(Keys.W, "* W Key");
+                    break;
+                case 1:
+                    if (AKeyCheckBox.Checked)
+                        await PressAndReleaseKeyAsync(Keys.A, "* A Key");
+                    break;
+                case 2:
+                    if (SKeyCheckBox.Checked)
+                        await PressAndReleaseKeyAsync(Keys.S, "* S Key");
+                    break;
+                case 3:
+                    if (DKeyCheckBox.Checked)
+                        await PressAndReleaseKeyAsync(Keys.D, "* D Key");
+                    break;
+                case 4:
+                    if (WKeyCheckBox.Checked)
+                        await PressAndReleaseKeyAsync(Keys.Z, "* Z Key");
+                    break;
+                case 5:
+                    if (AKeyCheckBox.Checked)
+                        await PressAndReleaseKeyAsync(Keys.Q, "* Q Key");
+                    break;
             }
-            // Q Key
-            void QKey()
+        }
+
+        private async Task PressAndReleaseKeyAsync(Keys key, string logMessage)
+        {
+            await Task.Run(() =>
             {
-                if (AKeyCheckBox.Checked)
-                {
-                    // Press
-                    keybd_event((byte)Keys.Q, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
-                    Thread.Sleep(800);
-                    // Release
-                    keybd_event((byte)Keys.Q, 0x45, KEYEVENTF_KEYUP, 0);
+                // Press Key
+                keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
+                Thread.Sleep(800);
+                // Release Key
+                keybd_event((byte)key, 0x45, KEYEVENTF_KEYUP, 0);
+            });
 
-                    // Update Log
-                    UpdateLog("* Q Key");
-                }
-            }
-            // W Key
-            void WKey()
-            {
-                if (WKeyCheckBox.Checked)
-                {
-                    // Press
-                    keybd_event((byte)Keys.W, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
-                    Thread.Sleep(800);
-                    // Release
-                    keybd_event((byte)Keys.W, 0x45, KEYEVENTF_KEYUP, 0);
+            UpdateLog(logMessage);
+        }
 
-                    // Update Log
-                    UpdateLog("* W Key");
-                }
-            }
-            // A Key
-            void AKey()
-            {
-                if (AKeyCheckBox.Checked)
-                {
-                    // Press
-                    keybd_event((byte)Keys.A, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
-                    Thread.Sleep(800);
-                    // Release
-                    keybd_event((byte)Keys.A, 0x45, KEYEVENTF_KEYUP, 0);
-
-                    // Update Log
-                    UpdateLog("* A Key");
-                }
-            }
-            // S Key
-            void SKey()
-            {
-                if (SKeyCheckBox.Checked)
-                {
-                    // Press
-                    keybd_event((byte)Keys.S, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
-                    Thread.Sleep(800);
-                    // Release
-                    keybd_event((byte)Keys.S, 0x45, KEYEVENTF_KEYUP, 0);
-
-                    // Update Log
-                    UpdateLog("* S Key");
-                }
-            }
-            // D Key
-            void DKey()
-            {
-                if (DKeyCheckBox.Checked)
-                {
-                    // Press
-                    keybd_event((byte)Keys.D, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
-                    Thread.Sleep(800);
-                    // Release
-                    keybd_event((byte)Keys.D, 0x45, KEYEVENTF_KEYUP, 0);
-
-                    // Update Log
-                    UpdateLog("* D Key");
-                }
-            }
-            #endregion
-
-            #region Mouse Buttons
+        private async Task ExecuteMouseClicksAsync()
+        {
             // Left Click
             if (MouseClickLeftCheckBox.Checked)
             {
-                // Press
-                mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-                Thread.Sleep(800);
-                // Release
-                mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+                await Task.Run(() =>
+                {
+                    // Press Left Button
+                    mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+                    Thread.Sleep(800);
+                    // Release Left Button
+                    mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+                });
 
-                // Update Log
-                UpdateLog("* Left mouse");
+                UpdateLog("* Left Mouse");
             }
+
             // Right Click
             if (MouseClickRightCheckBox.Checked)
             {
-                // Press
-                mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
-                Thread.Sleep(800);
-                // Release
-                mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
+                await Task.Run(() =>
+                {
+                    // Press Right Button
+                    mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+                    Thread.Sleep(800);
+                    // Release Right Button
+                    mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
+                });
 
-                // Update Log
-                UpdateLog("* Right mouse");
+                UpdateLog("* Right Mouse");
             }
-            #endregion
+        }
 
-            LoopNumber++;
+        private void UpdateElapsedTimeDisplay()
+        {
+            if (stopwatch.IsRunning)
+            {
+                // Capture Current Time Snapshot
+                TimeSpan currentElapsed = stopwatch.Elapsed;
 
-            // Update Log
-            UpdateLog($"Finished Loop {LoopNumber}\n\r");
+                // Calculate Elapsed Time
+                int elapsedHours = (int)currentElapsed.TotalHours;
+                int elapsedMinutes = (int)currentElapsed.TotalMinutes % 60;
+                int elapsedSeconds = (int)currentElapsed.TotalSeconds % 60;
 
-            // Set Timer Interval
-            SetTimerInterval(60 / TrackBarSpeed.Value);
+                // Calculate Remaining Time
+                int totalMinutes = TrackBarLength.Value;
+                int totalSeconds = totalMinutes * 60;
+                int elapsedTotalSeconds = (int)currentElapsed.TotalSeconds;
+                int remainingSeconds = Math.Max(0, totalSeconds - elapsedTotalSeconds);
+
+                int remainingHours = remainingSeconds / 3600;
+                int remainingMinutes = (remainingSeconds % 3600) / 60;
+                int remainingSecondsOnly = remainingSeconds % 60;
+
+                // Format Elapsed Time
+                string elapsedTime =
+                    totalMinutes >= 60 && elapsedHours > 0
+                        ? $"{elapsedHours:00}:{elapsedMinutes:00}:{elapsedSeconds:00}"
+                        : $"{elapsedMinutes:00}:{elapsedSeconds:00}";
+
+                // Format Remaining Time
+                string remainingTime =
+                    totalMinutes >= 60
+                        ? $"{remainingHours:00}:{remainingMinutes:00}:{remainingSecondsOnly:00}"
+                        : $"{remainingMinutes:00}:{remainingSecondsOnly:00}";
+
+                LabelElapsedTime.Text = $"Elapsed: {elapsedTime}\nRemaining: {remainingTime}";
+            }
         }
 
         public void SetTimerInterval(int seconds)
@@ -316,141 +380,68 @@ namespace AFK_Assist
         #region Enable/Disable Configuration Methods
         private void EnableConfigurations()
         {
-            // Enable all Checkboxes
+            // Enable Menu Items
             AltTabToolStripMenuItem.Enabled = true;
-            MouseCheckBox.Enabled = true;
-            KeyboardCheckBox.Enabled = true;
-
-            // Enable Trackbars
-            TrackBarLength.Enabled = true;
-            TrackBarSpeed.Enabled = true;
-
-            // Enable MenuStripItems
             HelpToolStripMenuItem.Enabled = true;
             ExtraOptionsToolStripMenuItem.Enabled = true;
             PresetsToolStripMenuItem.Enabled = true;
 
-            // Enable/Disable Buttons
+            // Enable Input Groups
+            MouseGroupBox.Enabled = true;
+            KeyboardGroupBox.Enabled = true;
+
+            // Enable TrackBars
+            TrackBarLength.Enabled = true;
+            TrackBarSpeed.Enabled = true;
+
+            // Enable Start Button
             ButtonStart.Enabled = true;
             ButtonStop.Enabled = false;
         }
 
         private void DisableConfigurations()
         {
-            // Disable all Checkboxes
+            // Disable Menu Items
             AltTabToolStripMenuItem.Enabled = false;
-            MouseCheckBox.Enabled = false;
-            KeyboardCheckBox.Enabled = false;
-
-            // Disable Trackbars
-            TrackBarLength.Enabled = false;
-            TrackBarSpeed.Enabled = false;
-
-            // Disable MenuStripItems
             HelpToolStripMenuItem.Enabled = false;
             ExtraOptionsToolStripMenuItem.Enabled = false;
             PresetsToolStripMenuItem.Enabled = false;
 
-            // Disable/Enable Buttons
+            // Disable Input Groups
+            MouseGroupBox.Enabled = false;
+            KeyboardGroupBox.Enabled = false;
+
+            // Disable TrackBars
+            TrackBarLength.Enabled = false;
+            TrackBarSpeed.Enabled = false;
+
+            // Enable Stop Button
             ButtonStart.Enabled = false;
             ButtonStop.Enabled = true;
 
-            // Hide All Panels
-            MousePanel.Visible = false;
-            KeyboardPanel.Visible = false;
-
-            // Extra Configurations
-            LoopRanOnce = false;
-            AltTabbed = false;
-            LoopNumber = 0;
+            // Reset State
+            loopRanOnce = false;
+            altTabbed = false;
+            loopNumber = 0;
             TextBoxLog.Text = "";
+            LabelElapsedTime.Text = "Elapsed: 00:00\nRemaining: 00:00";
         }
         #endregion
 
-        #region Visual Methods for Mouse Click Checkbox
-        private void MouseCheckBox_Click(object sender, EventArgs e)
-        {
-            if (MouseCheckBox.Checked)
-            {
-                KeyboardPanel.Visible = false;
-                MousePanel.Visible = true;
-                MouseClickLeftCheckBox.Checked = true;
-                MouseClickRightCheckBox.Checked = true;
-            }
-            else
-            {
-                MousePanel.Visible = false;
-                MouseClickLeftCheckBox.Checked = false;
-                MouseClickRightCheckBox.Checked = false;
-            }
-        }
-
-        private void MouseClickCheckBox_Click(object sender, EventArgs e)
-        {
-            if (MouseClickLeftCheckBox.Checked && MouseClickRightCheckBox.Checked)
-                MouseCheckBox.CheckState = CheckState.Checked;
-            else if (!MouseClickLeftCheckBox.Checked && !MouseClickRightCheckBox.Checked)
-                MouseCheckBox.Checked = false;
-            else
-                MouseCheckBox.CheckState = CheckState.Indeterminate;
-        }
-        #endregion
-
-        #region  Visual Methods for Keyboard Checkbox
-        private void KeyboardCheckBox_Click(object sender, EventArgs e)
-        {
-            if (KeyboardCheckBox.Checked)
-            {
-                MousePanel.Visible = false;
-                KeyboardPanel.Visible = true;
-                WKeyCheckBox.Checked = true;
-                AKeyCheckBox.Checked = true;
-                SKeyCheckBox.Checked = true;
-                DKeyCheckBox.Checked = true;
-            }
-            else
-            {
-                KeyboardPanel.Visible = false;
-                WKeyCheckBox.Checked = false;
-                AKeyCheckBox.Checked = false;
-                SKeyCheckBox.Checked = false;
-                DKeyCheckBox.Checked = false;
-            }
-        }
-
-        private void WASDKeyCheckBox_Click(object sender, EventArgs e)
-        {
-            if (
-                WKeyCheckBox.Checked
-                && AKeyCheckBox.Checked
-                && SKeyCheckBox.Checked
-                && DKeyCheckBox.Checked
-            )
-                KeyboardCheckBox.CheckState = CheckState.Checked;
-            else if (
-                !WKeyCheckBox.Checked
-                && !AKeyCheckBox.Checked
-                && !SKeyCheckBox.Checked
-                && !DKeyCheckBox.Checked
-            )
-                KeyboardCheckBox.Checked = false;
-            else
-                KeyboardCheckBox.CheckState = CheckState.Indeterminate;
-        }
-        #endregion
-
-        #region Method to Update Log
+        #region Update Log
         public void UpdateLog(string text)
         {
-            if (LoopRanOnce == false)
+            if (!loopRanOnce)
             {
-                TextBoxLog.Text += $"{text}";
-                LoopRanOnce = true;
+                TextBoxLog.Text += text;
+                loopRanOnce = true;
             }
             else
             {
                 TextBoxLog.Text += $"\n\r\n\r{text}";
             }
+
+            // Auto Scroll To Bottom
             TextBoxLog.SelectionStart = TextBoxLog.TextLength;
             TextBoxLog.ScrollToCaret();
         }
@@ -459,30 +450,21 @@ namespace AFK_Assist
         #region MenuStrip
         private void ClearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Disable Checkboxes
+            // Uncheck Extra Options
             AltTabToolStripMenuItem.Checked = false;
             RandomizeToolStripMenuItem.Checked = false;
             AzertyToolStripMenuItem.Checked = false;
 
-            MouseCheckBox.Checked = false;
+            // Uncheck All Inputs
             MouseClickLeftCheckBox.Checked = false;
             MouseClickRightCheckBox.Checked = false;
-            KeyboardCheckBox.Checked = false;
-
             WKeyCheckBox.Checked = false;
             AKeyCheckBox.Checked = false;
             SKeyCheckBox.Checked = false;
             DKeyCheckBox.Checked = false;
 
-            // Hide Panels
-            MousePanel.Visible = false;
-            KeyboardPanel.Visible = false;
-
             // Reset TrackBars
-            TrackBarSpeed.Value = 1;
-            LabelSpeed.Text = "1 simulation / minute";
-            TrackBarLength.Value = 1;
-            LabelLength.Text = "1 minute";
+            ResetTrackBars();
         }
 
         private void TutorialToolStripMenuItem_Click(object sender, EventArgs e)
@@ -490,51 +472,56 @@ namespace AFK_Assist
             MessageBox.Show(
                 "1. Toggle the Alt + Tab feature on or off, depending on whether or not you want the program to switch to the game automatically\r\n\r\n"
                     + "2. Select \"Randomize simulation\" in the \"Extra\" tab if you want the application to randomize key presses\r\n\r\n"
-                    + "3. Select your preferred simulation option, mouse and/or keyboard. Choose at least one option from keyboard or mouse for the program to run. You can choose the specific keys you want to simulate (WASD keys), and also the mouse buttons you want to simulate (left and/or right click)\r\n\r\n"
+                    + "3. Select your preferred simulation options in the Mouse and Keyboard sections. Choose at least one option from either group for the program to run\r\n\r\n"
                     + "4. Choose the amount of simulations you want to perform per minute, ranging from 1 per minute to 10 per minute\r\n\r\n"
-                    + "5. Select the total duration for the simulation, between 1 minute and 120\r\n\r\n"
+                    + "5. Select the total duration for the simulation, between 1 minute and 6 hours\r\n\r\n"
                     + "6. Press \"Start\" to begin the simulation. You can also stop the simulation at any time by pressing \"Stop\"\r\n\r\n"
                     + "7. A log will be available in real-time, allowing you to monitor the progress of the simulation",
-                ""
+                "How To Use"
             );
         }
 
         private void GTAToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AltTabToolStripMenuItem.CheckState = CheckState.Unchecked;
+            // Configure For GTA
+            AltTabToolStripMenuItem.Checked = false;
 
-            MouseCheckBox.CheckState = CheckState.Indeterminate;
-            MouseClickLeftCheckBox.CheckState = CheckState.Unchecked;
-            MouseClickRightCheckBox.CheckState = CheckState.Checked;
-            KeyboardCheckBox.CheckState = CheckState.Unchecked;
-            WKeyCheckBox.CheckState = CheckState.Unchecked;
-            AKeyCheckBox.CheckState = CheckState.Unchecked;
-            SKeyCheckBox.CheckState = CheckState.Unchecked;
-            DKeyCheckBox.CheckState = CheckState.Unchecked;
+            // Mouse Right Click Only
+            MouseClickLeftCheckBox.Checked = false;
+            MouseClickRightCheckBox.Checked = true;
 
-            MousePanel.Visible = true;
-            KeyboardPanel.Visible = false;
+            // No Keyboard Keys
+            WKeyCheckBox.Checked = false;
+            AKeyCheckBox.Checked = false;
+            SKeyCheckBox.Checked = false;
+            DKeyCheckBox.Checked = false;
+
+            // Reset TrackBars
+            ResetTrackBars();
         }
 
         private void RocketLeagueToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AltTabToolStripMenuItem.CheckState = CheckState.Unchecked;
+            // Configure For Rocket League
+            AltTabToolStripMenuItem.Checked = false;
 
-            MouseCheckBox.CheckState = CheckState.Checked;
-            MouseClickLeftCheckBox.CheckState = CheckState.Checked;
-            MouseClickRightCheckBox.CheckState = CheckState.Checked;
-            KeyboardCheckBox.CheckState = CheckState.Checked;
-            WKeyCheckBox.CheckState = CheckState.Checked;
-            AKeyCheckBox.CheckState = CheckState.Checked;
-            SKeyCheckBox.CheckState = CheckState.Checked;
-            DKeyCheckBox.CheckState = CheckState.Checked;
+            // All Mouse Buttons
+            MouseClickLeftCheckBox.Checked = true;
+            MouseClickRightCheckBox.Checked = true;
 
-            MousePanel.Visible = false;
-            KeyboardPanel.Visible = false;
+            // All Keyboard Keys
+            WKeyCheckBox.Checked = true;
+            AKeyCheckBox.Checked = true;
+            SKeyCheckBox.Checked = true;
+            DKeyCheckBox.Checked = true;
+
+            // Reset TrackBars
+            ResetTrackBars();
         }
 
         private void AzertyToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Update Key Labels For Azerty
             if (AzertyToolStripMenuItem.Checked)
             {
                 WKeyCheckBox.Text = "Z Key";
@@ -546,27 +533,50 @@ namespace AFK_Assist
                 AKeyCheckBox.Text = "A Key";
             }
         }
+
+        private void ResetTrackBars()
+        {
+            // Reset Speed
+            TrackBarSpeed.Value = 1;
+            LabelSpeed.Text = "1 Simulation / Minute";
+
+            // Reset Length
+            TrackBarLength.Value = 1;
+            LabelLength.Text = "1 Minute";
+        }
         #endregion
 
         #region TrackBar
         private void TrackBarLength_Scroll(object sender, EventArgs e)
         {
-            string text;
-            if (TrackBarLength.Value == 1)
-                text = "1 minute";
+            int value = TrackBarLength.Value;
+
+            if (value < 60)
+            {
+                // Display Minutes
+                LabelLength.Text = value == 1 ? "1 Minute" : $"{value} Minutes";
+            }
             else
-                text = $"{TrackBarLength.Value} minutes";
-            LabelLength.Text = text;
+            {
+                // Calculate Hours And Minutes
+                int hours = value / 60;
+                int minutes = value % 60;
+
+                // Display Hours
+                if (minutes == 0)
+                    LabelLength.Text = hours == 1 ? "1 Hour" : $"{hours} Hours";
+                else
+                    LabelLength.Text = $"{hours}h {minutes}m";
+            }
         }
 
         private void TrackBarSpeed_Scroll(object sender, EventArgs e)
         {
-            string text;
-            if (TrackBarSpeed.Value == 1)
-                text = "1 simulation / minute";
-            else
-                text = $"{TrackBarSpeed.Value} simulations / minute";
-            LabelSpeed.Text = text;
+            int value = TrackBarSpeed.Value;
+
+            // Display Speed
+            LabelSpeed.Text =
+                value == 1 ? "1 Simulation / Minute" : $"{value} Simulations / Minute";
         }
         #endregion
     }
