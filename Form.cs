@@ -19,6 +19,9 @@ namespace AFK_Assist
         private int loopNumber = 0;
         private int totalLoops = 0;
         private CancellationTokenSource cancellationTokenSource;
+        private bool isPaused = false;
+        private TimeSpan pausedElapsedTime = TimeSpan.Zero;
+        private bool isSimulationRunning = false;
 
         public Form()
         {
@@ -29,7 +32,7 @@ namespace AFK_Assist
 
         private void InitializeElapsedTimer()
         {
-            elapsedTimer.Interval = 1000;
+            elapsedTimer.Interval = 100;
             elapsedTimer.Tick += ElapsedTimer_Tick;
         }
 
@@ -69,6 +72,20 @@ namespace AFK_Assist
         #region Buttons
         private async void ButtonStart_ClickAsync(object sender, EventArgs e)
         {
+            // Handle Pause
+            if (ButtonStart.Text == "Pause")
+            {
+                PauseSimulation();
+                return;
+            }
+
+            // Handle Resume
+            if (isPaused)
+            {
+                ResumeSimulation();
+                return;
+            }
+
             // Check If Any Input Is Selected
             bool hasMouseInput = MouseClickLeftCheckBox.Checked || MouseClickRightCheckBox.Checked;
             bool hasKeyboardInput =
@@ -117,12 +134,22 @@ namespace AFK_Assist
             SetTimerInterval(60 / TrackBarSpeed.Value);
             loopNumber = 0;
             altTabbed = false;
+            isPaused = false;
+            pausedElapsedTime = TimeSpan.Zero;
+            isSimulationRunning = true;
             cancellationTokenSource = new CancellationTokenSource();
 
+            // Initialize Display Immediately
+            UpdateElapsedTimeDisplay();
+
             stopwatch.Start();
-            MainTimer.Start();
             elapsedTimer.Start();
+            MainTimer.Start();
             DisableConfigurations();
+
+            // Change to Pause State
+            ButtonStart.Text = "Pause";
+            ButtonStart.Enabled = true;
 
             try
             {
@@ -142,7 +169,7 @@ namespace AFK_Assist
 
         private void ButtonStop_Click(object sender, EventArgs e)
         {
-            // Cancel Running Task
+            // Cancel Running Task Immediately
             cancellationTokenSource?.Cancel();
 
             // Stop All Timers First
@@ -151,11 +178,17 @@ namespace AFK_Assist
             stopwatch.Stop();
 
             // Capture Final Elapsed Time Immediately
-            TimeSpan finalElapsedTime = stopwatch.Elapsed;
+            TimeSpan finalElapsedTime = isPaused ? pausedElapsedTime : stopwatch.Elapsed;
 
             // Re Enable Controls
             EnableConfigurations();
             SetTimerInterval(1);
+
+            // Reset Pause State
+            isPaused = false;
+            pausedElapsedTime = TimeSpan.Zero;
+            isSimulationRunning = false;
+            ButtonStart.Text = "Start";
 
             // Calculate Elapsed Time From Snapshot
             int hours = (int)finalElapsedTime.TotalHours;
@@ -179,11 +212,47 @@ namespace AFK_Assist
 
             //MessageBox.Show(timeMessage, "Stopped");
         }
+
+        private void PauseSimulation()
+        {
+            isPaused = true;
+            pausedElapsedTime = stopwatch.Elapsed;
+
+            // Stop Timers
+            MainTimer.Stop();
+            elapsedTimer.Stop();
+            stopwatch.Stop();
+
+            // Change to Resume State
+            ButtonStart.Text = "Resume";
+            ButtonStart.Enabled = true;
+        }
+
+        private void ResumeSimulation()
+        {
+            isPaused = false;
+
+            // Resume Timers
+            stopwatch.Start();
+            elapsedTimer.Start();
+            MainTimer.Start();
+
+            // Change to Pause State
+            ButtonStart.Text = "Pause";
+        }
         #endregion
 
         #region Timer
         private async void Timer_TickAsync(object sender, EventArgs e)
         {
+            // Stop Immediately Check
+            if (cancellationTokenSource?.Token.IsCancellationRequested == true)
+                return;
+
+            // Check if Paused
+            if (isPaused)
+                return;
+
             // Alt Tab Once Per Session
             if (AltTabToolStripMenuItem.Checked && !altTabbed)
             {
@@ -199,19 +268,27 @@ namespace AFK_Assist
 
             // Calculate And Display Remaining Loops
             int remainingLoops = totalLoops - loopNumber;
-            UpdateLog($"{remainingLoops} Loops Remaining\n\r");
+            UpdateLog($"{remainingLoops} Loop{(remainingLoops == 1 ? "" : "s")} Remaining\n\r");
 
-            // Update Timer Interval
+            // Update Timer Interval for Precision
             SetTimerInterval(60 / TrackBarSpeed.Value);
         }
 
         private async Task ExecuteSimulationAsync()
         {
+            // Check Cancellation Before Executing
+            if (cancellationTokenSource?.Token.IsCancellationRequested == true)
+                return;
+
             // Execute Key Simulation
             if (RandomizeToolStripMenuItem.Checked)
                 await RandomizeKeyPressesAsync();
             else
                 await SequentialKeyPressesAsync();
+
+            // Check Cancellation Before Mouse Clicks
+            if (cancellationTokenSource?.Token.IsCancellationRequested == true)
+                return;
 
             // Handle Mouse Clicks
             await ExecuteMouseClicksAsync();
@@ -224,8 +301,11 @@ namespace AFK_Assist
 
             while (pressedCount < 4)
             {
-                int keyIndex = random.Next(4);
+                // Check Cancellation During Key Presses
+                if (cancellationTokenSource?.Token.IsCancellationRequested == true)
+                    return;
 
+                int keyIndex = random.Next(4);
                 if (!keysPressed[keyIndex])
                 {
                     await ExecuteKeyPressAsync(keyIndex);
@@ -288,16 +368,17 @@ namespace AFK_Assist
 
         private async Task PressAndReleaseKeyAsync(Keys key, string logMessage)
         {
+            // Log Immediately
+            UpdateLog(logMessage);
+
             await Task.Run(() =>
             {
                 // Press Key
                 keybd_event((byte)key, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
-                Thread.Sleep(800);
+                Thread.Sleep(100);
                 // Release Key
                 keybd_event((byte)key, 0x45, KEYEVENTF_KEYUP, 0);
             });
-
-            UpdateLog(logMessage);
         }
 
         private async Task ExecuteMouseClicksAsync()
@@ -305,40 +386,42 @@ namespace AFK_Assist
             // Left Click
             if (MouseClickLeftCheckBox.Checked)
             {
+                // Log Immediately
+                UpdateLog("* Left Mouse");
+
                 await Task.Run(() =>
                 {
                     // Press Left Button
                     mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-                    Thread.Sleep(800);
+                    Thread.Sleep(100);
                     // Release Left Button
                     mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
                 });
-
-                UpdateLog("* Left Mouse");
             }
 
             // Right Click
             if (MouseClickRightCheckBox.Checked)
             {
+                // Log Immediately
+                UpdateLog("* Right Mouse");
+
                 await Task.Run(() =>
                 {
                     // Press Right Button
                     mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
-                    Thread.Sleep(800);
+                    Thread.Sleep(100);
                     // Release Right Button
                     mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
                 });
-
-                UpdateLog("* Right Mouse");
             }
         }
 
         private void UpdateElapsedTimeDisplay()
         {
-            if (stopwatch.IsRunning)
+            if (stopwatch.IsRunning || isPaused || isSimulationRunning)
             {
                 // Capture Current Time Snapshot
-                TimeSpan currentElapsed = stopwatch.Elapsed;
+                TimeSpan currentElapsed = isPaused ? pausedElapsedTime : stopwatch.Elapsed;
 
                 // Calculate Elapsed Time
                 int elapsedHours = (int)currentElapsed.TotalHours;
@@ -367,7 +450,21 @@ namespace AFK_Assist
                         ? $"{remainingHours:00}:{remainingMinutes:00}:{remainingSecondsOnly:00}"
                         : $"{remainingMinutes:00}:{remainingSecondsOnly:00}";
 
-                LabelElapsedTime.Text = $"Elapsed: {elapsedTime}\nRemaining: {remainingTime}";
+                // Ensure UI Updates Happen on UI Thread
+                if (LabelElapsedTime.InvokeRequired)
+                {
+                    LabelElapsedTime.Invoke(
+                        new Action(() =>
+                        {
+                            LabelElapsedTime.Text =
+                                $"Elapsed: {elapsedTime}\nRemaining: {remainingTime}";
+                        })
+                    );
+                }
+                else
+                {
+                    LabelElapsedTime.Text = $"Elapsed: {elapsedTime}\nRemaining: {remainingTime}";
+                }
             }
         }
 
@@ -415,8 +512,8 @@ namespace AFK_Assist
             TrackBarLength.Enabled = false;
             TrackBarSpeed.Enabled = false;
 
-            // Enable Stop Button
-            ButtonStart.Enabled = false;
+            // Enable Start/Stop Button
+            ButtonStart.Enabled = true;
             ButtonStop.Enabled = true;
 
             // Reset State
@@ -424,12 +521,20 @@ namespace AFK_Assist
             altTabbed = false;
             loopNumber = 0;
             TextBoxLog.Text = "";
-            LabelElapsedTime.Text = "Elapsed: 00:00\nRemaining: 00:00";
         }
         #endregion
 
         #region Update Log
         public void UpdateLog(string text)
+        {
+            // Ensure UI Updates Happen on UI Thread
+            if (TextBoxLog.InvokeRequired)
+                TextBoxLog.Invoke(new Action(() => UpdateLogInternal(text)));
+            else
+                UpdateLogInternal(text);
+        }
+
+        private void UpdateLogInternal(string text)
         {
             if (!loopRanOnce)
             {
@@ -475,7 +580,7 @@ namespace AFK_Assist
                     + "3. Select your preferred simulation options in the Mouse and Keyboard sections. Choose at least one option from either group for the program to run\r\n\r\n"
                     + "4. Choose the amount of simulations you want to perform per minute, ranging from 1 per minute to 10 per minute\r\n\r\n"
                     + "5. Select the total duration for the simulation, between 1 minute and 6 hours\r\n\r\n"
-                    + "6. Press \"Start\" to begin the simulation. You can also stop the simulation at any time by pressing \"Stop\"\r\n\r\n"
+                    + "6. Press \"Start\" to begin the simulation. You can also pause the simulation at any time by pressing \"Pause\", or stop it completely with \"Stop\"\r\n\r\n"
                     + "7. A log will be available in real-time, allowing you to monitor the progress of the simulation",
                 "How To Use"
             );
