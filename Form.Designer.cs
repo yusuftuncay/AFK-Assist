@@ -51,6 +51,8 @@ namespace AFK_Assist
             this.TextBoxLog = new System.Windows.Forms.TextBox();
             this.GroupBox5 = new System.Windows.Forms.GroupBox();
             this.LabelElapsedTime = new System.Windows.Forms.Label();
+            this.HowToUseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CheckForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarLength)).BeginInit();
             this.KeyboardGroupBox.SuspendLayout();
@@ -72,16 +74,18 @@ namespace AFK_Assist
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.MenuStrip.Size = new System.Drawing.Size(440, 28);
+            this.MenuStrip.Size = new System.Drawing.Size(440, 30);
             this.MenuStrip.TabIndex = 0;
             this.MenuStrip.Text = "MenuStrip";
             // 
             // HelpToolStripMenuItem
             // 
+            this.HelpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.HowToUseToolStripMenuItem,
+            this.CheckForUpdatesToolStripMenuItem});
             this.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem";
-            this.HelpToolStripMenuItem.Size = new System.Drawing.Size(102, 24);
-            this.HelpToolStripMenuItem.Text = "How To Use";
-            this.HelpToolStripMenuItem.Click += new System.EventHandler(this.TutorialToolStripMenuItem_Click);
+            this.HelpToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.HelpToolStripMenuItem.Text = "File";
             // 
             // ExtraOptionsToolStripMenuItem
             // 
@@ -155,7 +159,7 @@ namespace AFK_Assist
             // MainTimer
             // 
             this.MainTimer.Interval = 2000;
-            this.MainTimer.Tick += new System.EventHandler(this.Timer_TickAsync);
+            this.MainTimer.Tick += new System.EventHandler(this.MainTimer_TickAsync);
             // 
             // TrackBarLength
             // 
@@ -371,6 +375,20 @@ namespace AFK_Assist
             this.LabelElapsedTime.Text = "Elapsed: 00:00\r\nRemaining: 00:00";
             this.LabelElapsedTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // HowToUseToolStripMenuItem
+            // 
+            this.HowToUseToolStripMenuItem.Name = "HowToUseToolStripMenuItem";
+            this.HowToUseToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.HowToUseToolStripMenuItem.Text = "How To Use";
+            this.HowToUseToolStripMenuItem.Click += new System.EventHandler(this.HowToUseToolStripMenuItem_Click);
+            // 
+            // CheckForUpdatesToolStripMenuItem
+            // 
+            this.CheckForUpdatesToolStripMenuItem.Name = "CheckForUpdatesToolStripMenuItem";
+            this.CheckForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.CheckForUpdatesToolStripMenuItem.Text = "Check For Updates";
+            this.CheckForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.CheckForUpdatesToolStripMenuItem_Click);
+            // 
             // Form
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -452,6 +470,8 @@ namespace AFK_Assist
 
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem AzertyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem HowToUseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CheckForUpdatesToolStripMenuItem;
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AFK_Assist.Services;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -14,13 +15,15 @@ namespace AFK_Assist
         private readonly Stopwatch stopwatch = new Stopwatch();
         private readonly Random random = new Random();
         private readonly Timer elapsedTimer = new Timer();
+
         private bool loopRanOnce = false;
         private bool altTabbed = false;
         private int loopNumber = 0;
         private int totalLoops = 0;
         private CancellationTokenSource cancellationTokenSource;
-        private bool isPaused = false;
+
         private TimeSpan pausedElapsedTime = TimeSpan.Zero;
+        private bool isPaused = false;
         private bool isSimulationRunning = false;
 
         public Form()
@@ -28,6 +31,8 @@ namespace AFK_Assist
             InitializeComponent();
             InitializeElapsedTimer();
             InitializeMenuStripHover();
+
+            _ = CheckForUpdatesAsync();
         }
 
         private void InitializeElapsedTimer()
@@ -42,10 +47,54 @@ namespace AFK_Assist
             MenuStrip.MenuActivate += (s, e) => { };
         }
 
-        private void ElapsedTimer_Tick(object sender, EventArgs e)
+        #region Update Checker
+        private async Task CheckForUpdatesAsync(bool showNoUpdateMessageBox = false)
         {
-            UpdateElapsedTimeDisplay();
+            try
+            {
+                var result = await UpdateChecker.CheckAsync();
+                // No Redirect/Parse Issue
+                if (result == null)
+                    return;
+
+                if (result.UpdateAvailable)
+                {
+                    var msg =
+                        "A New Version is Available\n\n"
+                        + "Current: "
+                        + Application.ProductVersion
+                        + "\n"
+                        + "Latest:  "
+                        + result.Latest
+                        + "\n\nOpen the Release Page?";
+                    if (
+                        MessageBox.Show(
+                            this,
+                            msg,
+                            "Update Available",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Information
+                        ) == DialogResult.Yes
+                    )
+                    {
+                        UpdateChecker.OpenRelease(result.ReleaseUrl);
+                    }
+                }
+                else if (showNoUpdateMessageBox && !result.UpdateAvailable)
+                {
+                    var msg =
+                        "You Are Using the Latest Available Version\n\n"
+                        + "Current: "
+                        + Application.ProductVersion;
+                    MessageBox.Show(this, msg, "No Update Available", MessageBoxButtons.OK);
+                }
+            }
+            catch
+            {
+                // Stay Quiet
+            }
         }
+        #endregion
 
         #region Import And Use DLL
         [DllImport("user32.dll")]
@@ -255,7 +304,7 @@ namespace AFK_Assist
         #endregion
 
         #region Timer
-        private async void Timer_TickAsync(object sender, EventArgs e)
+        private async void MainTimer_TickAsync(object sender, EventArgs e)
         {
             // Stop Immediately Check
             if (cancellationTokenSource?.Token.IsCancellationRequested == true)
@@ -276,6 +325,11 @@ namespace AFK_Assist
 
             // Update Timer Interval for Precision
             SetTimerInterval(60 / TrackBarSpeed.Value);
+        }
+
+        private void ElapsedTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateElapsedTimeDisplay();
         }
 
         private async Task ExecuteSimulationAsync()
@@ -584,19 +638,7 @@ namespace AFK_Assist
             AKeyCheckBox.Text = "A Key";
         }
 
-        private void TutorialToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(
-                "1. Toggle the Alt + Tab feature on or off, depending on whether or not you want the program to switch to the game automatically\r\n\r\n"
-                    + "2. Select \"Randomize simulation\" in the \"Extra\" tab if you want the application to randomize key presses\r\n\r\n"
-                    + "3. Select your preferred simulation options in the Mouse and Keyboard sections. Choose at least one option from either group for the program to run\r\n\r\n"
-                    + "4. Choose the amount of simulations you want to perform per minute, ranging from 1 per minute to 10 per minute\r\n\r\n"
-                    + "5. Select the total duration for the simulation, between 1 minute and 6 hours\r\n\r\n"
-                    + "6. Press \"Start\" to begin the simulation. You can also pause the simulation at any time by pressing \"Pause\", or stop it completely with \"Stop\"\r\n\r\n"
-                    + "7. A log will be available in real-time, allowing you to monitor the progress of the simulation",
-                "How To Use"
-            );
-        }
+        private void TutorialToolStripMenuItem_Click(object sender, EventArgs e) { }
 
         private void GTAToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -694,6 +736,27 @@ namespace AFK_Assist
             // Display Speed
             LabelSpeed.Text =
                 value == 1 ? "1 Simulation / Minute" : $"{value} Simulations / Minute";
+        }
+        #endregion
+
+        #region ToolStrip
+        private void HowToUseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "1. Toggle the Alt + Tab feature on or off, depending on whether or not you want the program to switch to the game automatically\r\n\r\n"
+                    + "2. Select \"Randomize simulation\" in the \"Extra\" tab if you want the application to randomize key presses\r\n\r\n"
+                    + "3. Select your preferred simulation options in the Mouse and Keyboard sections. Choose at least one option from either group for the program to run\r\n\r\n"
+                    + "4. Choose the amount of simulations you want to perform per minute, ranging from 1 per minute to 10 per minute\r\n\r\n"
+                    + "5. Select the total duration for the simulation, between 1 minute and 6 hours\r\n\r\n"
+                    + "6. Press \"Start\" to begin the simulation. You can also pause the simulation at any time by pressing \"Pause\", or stop it completely with \"Stop\"\r\n\r\n"
+                    + "7. A log will be available in real-time, allowing you to monitor the progress of the simulation",
+                "How To Use"
+            );
+        }
+
+        private async void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await CheckForUpdatesAsync(showNoUpdateMessageBox: true);
         }
         #endregion
     }
