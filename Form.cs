@@ -151,6 +151,18 @@ namespace AFK_Assist
             ButtonStart.Text = "Pause";
             ButtonStart.Enabled = true;
 
+            // If Enabled: Execute Alt Tab Immediately
+            if (AltTabToolStripMenuItem.Checked)
+            {
+                await Task.Delay(1000, cancellationTokenSource.Token);
+                if (!cancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    SendKeys.Send("%{TAB}");
+                    UpdateLog("* Alt + Tab");
+                    altTabbed = true;
+                }
+            }
+
             try
             {
                 // Duration Based On TrackBar Value
@@ -252,14 +264,6 @@ namespace AFK_Assist
             // Check if Paused
             if (isPaused)
                 return;
-
-            // Alt Tab Once Per Session
-            if (AltTabToolStripMenuItem.Checked && !altTabbed)
-            {
-                SendKeys.Send("%{TAB}");
-                UpdateLog("* Alt + Tab");
-                altTabbed = true;
-            }
 
             // Execute Simulation Asynchronously
             await ExecuteSimulationAsync();
@@ -570,6 +574,14 @@ namespace AFK_Assist
 
             // Reset TrackBars
             ResetTrackBars();
+
+            // Clear Logs
+            TextBoxLog.Text = "";
+            // Reset Time Display
+            LabelElapsedTime.Text = "Elapsed: 00:00\nRemaining: 00:00";
+            // Reset Keyboard Labels to QWERTY
+            WKeyCheckBox.Text = "W Key";
+            AKeyCheckBox.Text = "A Key";
         }
 
         private void TutorialToolStripMenuItem_Click(object sender, EventArgs e)

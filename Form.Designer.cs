@@ -336,7 +336,7 @@ namespace AFK_Assist
             this.GroupBox4.Controls.Add(this.TextBoxLog);
             this.GroupBox4.Location = new System.Drawing.Point(220, 35);
             this.GroupBox4.Name = "GroupBox4";
-            this.GroupBox4.Size = new System.Drawing.Size(210, 390);
+            this.GroupBox4.Size = new System.Drawing.Size(210, 398);
             this.GroupBox4.TabIndex = 14;
             this.GroupBox4.TabStop = false;
             this.GroupBox4.Text = "Logs";
@@ -349,22 +349,21 @@ namespace AFK_Assist
             this.TextBoxLog.Name = "TextBoxLog";
             this.TextBoxLog.ReadOnly = true;
             this.TextBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBoxLog.Size = new System.Drawing.Size(190, 358);
+            this.TextBoxLog.Size = new System.Drawing.Size(190, 370);
             this.TextBoxLog.TabIndex = 0;
             // 
             // GroupBox5
             // 
             this.GroupBox5.Controls.Add(this.LabelElapsedTime);
-            this.GroupBox5.Location = new System.Drawing.Point(220, 435);
+            this.GroupBox5.Location = new System.Drawing.Point(220, 439);
             this.GroupBox5.Name = "GroupBox5";
-            this.GroupBox5.Size = new System.Drawing.Size(210, 70);
+            this.GroupBox5.Size = new System.Drawing.Size(210, 66);
             this.GroupBox5.TabIndex = 15;
             this.GroupBox5.TabStop = false;
             this.GroupBox5.Text = "Time";
             // 
             // LabelElapsedTime
             // 
-            this.LabelElapsedTime.Font = new System.Drawing.Font("Verdana", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelElapsedTime.Location = new System.Drawing.Point(10, 20);
             this.LabelElapsedTime.Name = "LabelElapsedTime";
             this.LabelElapsedTime.Size = new System.Drawing.Size(190, 40);
