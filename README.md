@@ -1,36 +1,38 @@
 # AFK Assist
 
-AFK Assist is a tool designed for gamers who need to step away from their computer for a short period of time.
+Keep your game active while you’re away by simulating keyboard and mouse input.
 
-This program simulates movement using the WASD keys and can also perform left and right mouse clicks, making it appear as if the user is actively playing the game. It includes options to choose from different automation modes, such as alt-tabbing to the game, performing keyboard (randomizable), mouse clicks, or a combination of both. Additionally, it features a timer function that allows users to set the program to run for a specific duration, ranging from 1 to 120 minutes. With AFK Assist, users can step away from their computer without fear of being kicked from their game.
+## Features
+- Keyboard (WASD or Chosen Keys) and Mouse (left/right) Simulation
+- Adjustable Interval (1–10 actions/min) and Duration (1min – 6hours)
+- Optional: Randomized Patterns, auto Alt+Tab to Previous App, AZERTY Layout Support
+- Presets for GTA5 and Rocket League
+- Live Log, Elapsed/Remaining Timers, and Pause/Resume/Stop
 
-This program is written in C# Forms.
+## Quick Start
+1. Choose Mouse Clicks
+2. Choose Keyboard Keys
+3. Choose Interval
+4. Choose Duration
 
+> Optional Settings:  
+> Alt+Tab into Previous App  
+> Randomize Simulation  
+> Enable AZERTY Keyboard Support
 
-# NOTE
+## Controls & feedback
+- Pause/Resume or Stop Anytime
+- Real-Time Log + Timers for Elapsed and Remaining Time
 
-Please be aware that not all games support virtual keyboard or mouse simulation. The results may vary, as some games may accept mouse simulation but not keyboard simulation, and vice versa. This is something that is out of my control. It's important to test the simulation on the specific game you want to use it with to ensure it works as expected. This probably is the way it is because some games may have anti-cheat mechanisms that detect and block virtual input injection.
+## ⚠️ Important
+- Game support for virtual input varies: Some accept mouse but not keyboard (and vice versa)
+- Keep the game window focused and the cursor inside it for the simulation to work
 
+## Technical details
+- Windows App Built with C# Windows Forms
 
-# How to use
+## Download
+Get the Latest Version from the [Latest Release](https://github.com/yusuftuncay/AFK-Assist/releases/latest)
 
-1. ```Optional``` Toggle the Alt + Tab feature on or off, switches to the game automatically
-2. ```Optional``` Select "Randomize simulation" in the "Extra" tab to randomize key presses
-3. Select your preferred simulation option, mouse and/or keyboard. Choose at least one option from keyboard or mouse for the program to run. You can choose the specific keys you want to simulate (WASD keys), and also the mouse buttons you want to simulate (left and/or right click)
-4. Choose the amount of simulations you want to perform per minute, ranging from 1 per minute to 10 per minute
-5. Select the total duration for the simulation, between 1 minute and 120
-6. Press "Start" to begin the simulation. You can also stop the simulation at any time by pressing "Stop"
-7. A log will be available in real-time, allowing you to monitor the progress of the simulation
-
-There are also 2 preset options available for games like GTA5 and Rocket League, which can be selected for a quick and easy setup.
-
-Note: Make sure that your game is running in the foreground and that the cursor is active within the game window for the simulation to work properly.
-
-
-# Downloads
-You can download the .exe file from the <a href="https://github.com/yusuf0142/AFK-Assist/releases">Releases</a> tab
-
-
-# Screenshots
-
-![image](https://github.com/yusuftuncay/AFK-Assist/assets/70652416/06708d3a-86ff-4ed5-8ff2-8b4565e2fbe8)
+## Screenshots
+![AFK Assist UI](https://github.com/user-attachments/assets/2bf510bc-4e66-41ff-bdac-77bc88355980)
