@@ -20,7 +20,7 @@ Keep your game active while you’re away by simulating keyboard and mouse input
 > Randomize Simulation  
 > Enable AZERTY Keyboard Support
 
-## Controls & feedback
+## Controls & Feedback
 - Pause/Resume or Stop Anytime
 - Real-Time Log + Timers for Elapsed and Remaining Time
 
@@ -28,7 +28,7 @@ Keep your game active while you’re away by simulating keyboard and mouse input
 - Game support for virtual input varies: Some accept mouse but not keyboard (and vice versa)
 - Keep the game window focused and the cursor inside it for the simulation to work
 
-## Technical details
+## Technical Details
 - Windows App Built with C# Windows Forms
 
 ## Download
