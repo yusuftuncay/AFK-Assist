@@ -5,8 +5,7 @@ Keep your game active while you’re away by simulating keyboard and mouse input
 ## Features
 - Keyboard (WASD or Chosen Keys) and Mouse (left/right) Simulation
 - Adjustable Interval (1–10 actions/min) and Duration (1min – 6hours)
-- Optional: Randomized Patterns, auto Alt+Tab to Previous App, AZERTY Layout Support
-- Presets for GTA5 and Rocket League
+- Optional: Randomized Patterns, Auto Focus To Game Window, AZERTY Auto Detection
 - Live Log, Elapsed/Remaining Timers, and Pause/Resume/Stop
 
 ## Quick Start
@@ -16,8 +15,9 @@ Keep your game active while you’re away by simulating keyboard and mouse input
 4. Choose Duration
 
 > Optional Settings:  
-> Alt+Tab into Previous App  
+> Auto Focus To Game Window  
 > Randomize Simulation  
+> Randomize Intervals  
 > Enable AZERTY Keyboard Support
 
 ## Controls & Feedback
@@ -25,7 +25,7 @@ Keep your game active while you’re away by simulating keyboard and mouse input
 - Real-Time Log + Timers for Elapsed and Remaining Time
 
 ## ⚠️ Important
-- Game support for virtual input varies: Some accept mouse but not keyboard (and vice versa)
+- Game support for virtual input varies: Some accept mouse but not keyboard
 - Keep the game window focused and the cursor inside it for the simulation to work
 
 ## Technical Details
