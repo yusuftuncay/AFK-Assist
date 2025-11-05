@@ -7,6 +7,8 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System;
+using System.Configuration;
 
 namespace AFK_Assist.Properties {
     
