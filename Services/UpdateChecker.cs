@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace AFK_Assist.Services
 {
+    // Update Result
     internal sealed class UpdateCheckResult
     {
         public bool UpdateAvailable { get; }
@@ -28,21 +29,20 @@ namespace AFK_Assist.Services
         }
     }
 
+    // Update Checker
     internal static class UpdateChecker
     {
+        // Latest Url
         private const string LatestUrl =
             "https://github.com/yusuftuncay/AFK-Assist/releases/latest";
 
-        /// <summary>
-        ///  Checks GitHub's /releases/latest redirect and compares it to the app version.
-        ///  If something goes wrong, <c>UpdateAvailable</c> will be false.
-        /// </summary>
-        /// <returns><c>UpdateCheckResult</c></returns>
+        #region Public API
+        // Check For Update
         public static async Task<UpdateCheckResult> CheckAsync()
         {
             try
             {
-                Version current = GetCurrentVersion();
+                Version currentVersion = GetCurrentVersion();
 
                 using (
                     var httpClient = new HttpClient(
@@ -56,27 +56,34 @@ namespace AFK_Assist.Services
 
                     var response = await httpClient.GetAsync(LatestUrl).ConfigureAwait(false);
                     if (!IsRedirect(response.StatusCode))
-                        return new UpdateCheckResult(false, current, current, string.Empty);
+                        return new UpdateCheckResult(
+                            false,
+                            currentVersion,
+                            currentVersion,
+                            string.Empty
+                        );
 
                     var locationHeader = response.Headers.Location;
                     var location =
                         locationHeader == null ? string.Empty : locationHeader.ToString();
                     if (string.IsNullOrEmpty(location))
-                        return new UpdateCheckResult(false, current, current, string.Empty);
+                        return new UpdateCheckResult(
+                            false,
+                            currentVersion,
+                            currentVersion,
+                            string.Empty
+                        );
 
-                    // Example: /yusuftuncay/AFK-Assist/releases/tag/v2.1.1
-                    int lastSlash = location.LastIndexOf('/');
-                    // v2.1.1
-                    string tag = lastSlash >= 0 ? location.Substring(lastSlash + 1) : location;
+                    var lastSlash = location.LastIndexOf('/');
+                    var tag = lastSlash >= 0 ? location.Substring(lastSlash + 1) : location;
 
-                    // 2.1.1
-                    Version latestVersion = ParseVersionFromTag(tag);
-                    bool hasUpdate = latestVersion > current;
-                    string latestReleaseUrl = "https://github.com" + location;
+                    var latestVersion = ParseVersionFromTag(tag);
+                    var hasUpdate = latestVersion > currentVersion;
+                    var latestReleaseUrl = "https://github.com" + location;
 
                     return new UpdateCheckResult(
                         hasUpdate,
-                        current,
+                        currentVersion,
                         latestVersion,
                         latestReleaseUrl
                     );
@@ -84,65 +91,61 @@ namespace AFK_Assist.Services
             }
             catch
             {
-                // Report "No Update"
-                Version current = GetSafeVersion(Application.ProductVersion);
+                var current = GetSafeVersion(Application.ProductVersion);
                 return new UpdateCheckResult(false, current, current, string.Empty);
             }
         }
 
+        // Open Release
         public static void OpenRelease(string url)
         {
             if (string.IsNullOrEmpty(url))
                 return;
+
             Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
         }
+        #endregion
 
         #region Helpers
+        // Redirect Check
         private static bool IsRedirect(HttpStatusCode code)
         {
-            int statusCode = (int)code;
+            var statusCode = (int)code;
             return statusCode >= 300 && statusCode <= 399;
         }
 
+        // Current Version
         private static Version GetCurrentVersion()
         {
-            // ProductVersion Maps to AssemblyFileVersion by Default (e.g., "2.1.1")
-            // We Normalize to Major.Minor.Patch for Comparison
             return GetSafeVersion(Application.ProductVersion);
         }
 
+        // Parse Version Tag
         private static Version ParseVersionFromTag(string tag)
         {
             if (string.IsNullOrEmpty(tag))
                 return new Version(0, 0, 0);
-
-            // Trim Leading v/V (e.g., "v2.1.1")
             if (tag.Length > 0 && (tag[0] == 'v' || tag[0] == 'V'))
                 tag = tag.Substring(1);
             return GetSafeVersion(tag);
         }
 
+        // Safe Version Parse
         private static Version GetSafeVersion(string text)
         {
             if (string.IsNullOrEmpty(text))
                 return new Version(0, 0, 0);
 
-            // Normalize to Major.Minor.Patch
-            // Accepts Inputs Like: "2.1.1" or "2.1" or "2"
             string[] parts = text.Split('.');
-            string normalized;
-
-            if (parts.Length >= 3)
-                normalized = parts[0] + "." + parts[1] + "." + parts[2];
-            else if (parts.Length == 2)
-                normalized = parts[0] + "." + parts[1] + ".0";
-            else if (parts.Length == 1)
-                normalized = parts[0] + ".0.0";
-            else
-                normalized = "0.0.0";
+            var normalized =
+                parts.Length >= 3 ? parts[0] + "." + parts[1] + "." + parts[2]
+                : parts.Length == 2 ? parts[0] + "." + parts[1] + ".0"
+                : parts.Length == 1 ? parts[0] + ".0.0"
+                : "0.0.0";
 
             if (!Version.TryParse(normalized, out Version safeVersion))
                 safeVersion = new Version(0, 0, 0);
+
             return safeVersion;
         }
         #endregion
