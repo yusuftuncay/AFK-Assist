@@ -33,8 +33,6 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <PackageReference Include="Costura.Fody" Version="6.0.0" />
     <PackageReference Include="Fody" Version="6.9.3" />
   </ItemGroup>
