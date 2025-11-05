@@ -1,51 +1,52 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net10.0-windows</TargetFramework>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>AFK_Assist</RootNamespace>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\YusufTuncay\Downloads\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Background</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <SupportUrl>https://github.com/yusuftuncay</SupportUrl>
-    <ProductName>AFK Assist</ProductName>
-    <PublisherName>Poolfullofmilk</PublisherName>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>3.0.0.0</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <CreateDesktopShortcut>true</CreateDesktopShortcut>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <ManifestCertificateThumbprint>8DE92D479129DA9FCCDA40753FC4764D5ECE6C82</ManifestCertificateThumbprint>
-    <ManifestKeyFile>AFK Assist_TemporaryKey.pfx</ManifestKeyFile>
-    <GenerateManifests>true</GenerateManifests>
-    <TargetZone>LocalIntranet</TargetZone>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-    <SignManifests>true</SignManifests>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="6.0.0" />
-    <PackageReference Include="Fody" Version="6.9.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <OutputType>WinExe</OutputType>
+        <RootNamespace>AFK_Assist</RootNamespace>
+        <IsWebBootstrapper>false</IsWebBootstrapper>
+        <PublishUrl>C:\Users\YusufTuncay\Downloads\</PublishUrl>
+        <Install>true</Install>
+        <InstallFrom>Disk</InstallFrom>
+        <UpdateEnabled>false</UpdateEnabled>
+        <UpdateMode>Background</UpdateMode>
+        <UpdateInterval>7</UpdateInterval>
+        <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+        <UpdatePeriodically>false</UpdatePeriodically>
+        <UpdateRequired>false</UpdateRequired>
+        <MapFileExtensions>true</MapFileExtensions>
+        <SupportUrl>https://github.com/yusuftuncay</SupportUrl>
+        <ProductName>AFK Assist</ProductName>
+        <PublisherName>Yusuf Tuncay</PublisherName>
+        <ApplicationRevision>0</ApplicationRevision>
+        <ApplicationVersion>3.0.0.0</ApplicationVersion>
+        <UseApplicationTrust>false</UseApplicationTrust>
+        <CreateDesktopShortcut>true</CreateDesktopShortcut>
+        <PublishWizardCompleted>true</PublishWizardCompleted>
+        <BootstrapperEnabled>true</BootstrapperEnabled>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+        <ManifestCertificateThumbprint>8DE92D479129DA9FCCDA40753FC4764D5ECE6C82</ManifestCertificateThumbprint>
+        <ManifestKeyFile>AFK Assist_TemporaryKey.pfx</ManifestKeyFile>
+        <GenerateManifests>true</GenerateManifests>
+        <TargetZone>LocalIntranet</TargetZone>
+        <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+        <SignManifests>true</SignManifests>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Costura.Fody" Version="6.0.0" />
+        <PackageReference Include="Fody" Version="6.9.3" />
+    </ItemGroup>
+    <ItemGroup>
+        <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+            <Visible>False</Visible>
+            <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
+            <Install>true</Install>
+        </BootstrapperPackage>
+        <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+            <Visible>False</Visible>
+            <ProductName>.NET Framework 3.5 SP1</ProductName>
+            <Install>false</Install>
+        </BootstrapperPackage>
+    </ItemGroup>
 </Project>

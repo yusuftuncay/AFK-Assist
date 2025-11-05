@@ -134,6 +134,7 @@ namespace AFK_Assist
             this.SwitchToGameToolStripMenuItem.Name = "SwitchToGameToolStripMenuItem";
             this.SwitchToGameToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
             this.SwitchToGameToolStripMenuItem.Text = "Switch To Game Automatically";
+            this.SwitchToGameToolStripMenuItem.Click += new System.EventHandler(this.SwitchToGameToolStripMenuItem_Click);
             // 
             // RandomizeToolStripMenuItem
             // 
