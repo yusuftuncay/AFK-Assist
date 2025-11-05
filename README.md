@@ -1,6 +1,6 @@
 # AFK Assist
 
-Keep your game active while you’re away by simulating keyboard and mouse input.
+Keep your game active while you’re away by simulating keyboard and mouse input
 
 ## Features
 - Keyboard (WASD or Chosen Keys) and Mouse (left/right) Simulation
