@@ -93,7 +93,7 @@ public partial class Form : System.Windows.Forms.Form
                 var message =
                     "A New Version is Available\n\n"
                     + "Current: "
-                    + Application.ProductVersion
+                    + UpdateChecker.GetCurrentVersion()
                     + "\n"
                     + "Latest:  "
                     + result.Latest
@@ -115,7 +115,7 @@ public partial class Form : System.Windows.Forms.Form
             {
                 var message =
                     "You are Using the Latest Available Version\n\nCurrent: v"
-                    + Application.ProductVersion;
+                    + UpdateChecker.GetCurrentVersion();
                 MessageBox.Show(this, message, "No Update Available", MessageBoxButtons.OK);
             }
         }
@@ -319,15 +319,15 @@ public partial class Form : System.Windows.Forms.Form
     // Layout Change Handler
     private void Form_InputLanguageChanged(object sender, InputLanguageChangedEventArgs e)
     {
-        var previousAzerty = AzertyToolStripMenuItem.Checked;
+        //var previousAzerty = AzertyToolStripMenuItem.Checked;
         ApplyKeyboardAutoDetection();
-        var newAzerty = AzertyToolStripMenuItem.Checked;
+        //var newAzerty = AzertyToolStripMenuItem.Checked;
 
-        if (previousAzerty != newAzerty)
-        {
-            var layoutType = AzertyToolStripMenuItem.Checked ? "AZERTY" : "QWERTY";
-            UpdateLog($"{layoutType} Layout Applied");
-        }
+        //if (previousAzerty != newAzerty)
+        //{
+        //    var layoutType = AzertyToolStripMenuItem.Checked ? "AZERTY" : "QWERTY";
+        //    UpdateLog($"{layoutType} Layout Applied");
+        //}
     }
     #endregion
 }

@@ -94,13 +94,13 @@ public partial class Form
         {
             WKeyCheckBox.Text = "Z Key";
             AKeyCheckBox.Text = "Q Key";
-            UpdateLog("AZERTY Layout Enabled");
+            UpdateLog("AZERTY Layout Applied");
         }
         else
         {
             WKeyCheckBox.Text = "W Key";
             AKeyCheckBox.Text = "A Key";
-            UpdateLog("QWERTY Layout Enabled");
+            UpdateLog("QWERTY Layout Applied");
         }
     }
 

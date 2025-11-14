@@ -52,14 +52,8 @@ public static class UpdateChecker
 
                 var latestVersion = ParseVersionFromTag(tag);
                 var hasUpdate = latestVersion > currentVersion;
-                var latestReleaseUrl = "https://github.com" + location;
 
-                return new UpdateCheckResult(
-                    hasUpdate,
-                    currentVersion,
-                    latestVersion,
-                    latestReleaseUrl
-                );
+                return new UpdateCheckResult(hasUpdate, currentVersion, latestVersion, location);
             }
         }
         catch
@@ -77,6 +71,12 @@ public static class UpdateChecker
 
         Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
     }
+
+    // Current Version
+    public static Version GetCurrentVersion()
+    {
+        return GetSafeVersion(Application.ProductVersion);
+    }
     #endregion
 
     #region Helpers
@@ -85,12 +85,6 @@ public static class UpdateChecker
     {
         var statusCode = (int)code;
         return statusCode >= 300 && statusCode <= 399;
-    }
-
-    // Current Version
-    private static Version GetCurrentVersion()
-    {
-        return GetSafeVersion(Application.ProductVersion);
     }
 
     // Parse Version Tag
@@ -108,6 +102,10 @@ public static class UpdateChecker
     {
         if (string.IsNullOrEmpty(text))
             return new Version(0, 0, 0);
+
+        var plusIndex = text.IndexOf('+');
+        if (plusIndex >= 0)
+            text = text.Substring(0, plusIndex);
 
         var parts = text.Split('.');
         var normalized =
