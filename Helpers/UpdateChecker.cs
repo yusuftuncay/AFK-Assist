@@ -8,73 +8,74 @@ using AFK_Assist.Classes;
 
 namespace AFK_Assist.Helpers;
 
-// Update Checker
 public static class UpdateChecker
 {
-    // Latest Url
+    // Update Endpoint
     private const string LatestUrl = "https://github.com/yusuftuncay/AFK-Assist/releases/latest";
 
     #region Public API
-    // Check For Update
     public static async Task<UpdateCheckResult> CheckAsync()
     {
         try
         {
+            // Read Current Version
             var currentVersion = GetCurrentVersion();
 
-            using (
-                var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = false })
-            )
-            {
-                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("AFK-Assist-UpdateChecker/1.0");
+            using var httpClient = new HttpClient(
+                new HttpClientHandler { AllowAutoRedirect = false }
+            );
 
-                var response = await httpClient.GetAsync(LatestUrl).ConfigureAwait(false);
-                if (!IsRedirect(response.StatusCode))
-                    return new UpdateCheckResult(
-                        false,
-                        currentVersion,
-                        currentVersion,
-                        string.Empty
-                    );
+            // Set Client Headers
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("AFK-Assist-UpdateChecker/1.0");
 
-                var locationHeader = response.Headers.Location;
-                var location = locationHeader == null ? string.Empty : locationHeader.ToString();
-                if (string.IsNullOrEmpty(location))
-                    return new UpdateCheckResult(
-                        false,
-                        currentVersion,
-                        currentVersion,
-                        string.Empty
-                    );
+            // Request Latest Release
+            var response = await httpClient.GetAsync(LatestUrl).ConfigureAwait(false);
 
-                var lastSlash = location.LastIndexOf('/');
-                var tag = lastSlash >= 0 ? location.Substring(lastSlash + 1) : location;
+            // Validate Redirect Response
+            if (!IsRedirect(response.StatusCode))
+                return new UpdateCheckResult(false, currentVersion, currentVersion, string.Empty);
 
-                var latestVersion = ParseVersionFromTag(tag);
-                var hasUpdate = latestVersion > currentVersion;
+            // Read Location Header
+            var locationHeader = response.Headers.Location;
+            var location = locationHeader == null ? string.Empty : locationHeader.ToString();
 
-                return new UpdateCheckResult(hasUpdate, currentVersion, latestVersion, location);
-            }
+            // Validate Location Header
+            if (string.IsNullOrEmpty(location))
+                return new UpdateCheckResult(false, currentVersion, currentVersion, string.Empty);
+
+            // Extract Tag From Url
+            var lastSlashIndex = location.LastIndexOf('/');
+            var tag = lastSlashIndex >= 0 ? location.Substring(lastSlashIndex + 1) : location;
+
+            // Parse Latest Version
+            var latestVersion = ParseVersionFromTag(tag);
+
+            // Compare Version Numbers
+            var hasUpdate = latestVersion > currentVersion;
+
+            return new UpdateCheckResult(hasUpdate, currentVersion, latestVersion, location);
         }
         catch
         {
-            var current = GetSafeVersion(Application.ProductVersion);
-            return new UpdateCheckResult(false, current, current, string.Empty);
+            // Return Safe Fallback
+            var currentVersion = GetSafeVersion(Application.ProductVersion);
+            return new UpdateCheckResult(false, currentVersion, currentVersion, string.Empty);
         }
     }
 
-    // Open Release
     public static void OpenRelease(string url)
     {
+        // Validate Input Url
         if (string.IsNullOrEmpty(url))
             return;
 
+        // Launch Browser Url
         Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
     }
 
-    // Current Version
     public static Version GetCurrentVersion()
     {
+        // Parse Application Version
         return GetSafeVersion(Application.ProductVersion);
     }
     #endregion
@@ -83,30 +84,39 @@ public static class UpdateChecker
     // Redirect Check
     private static bool IsRedirect(HttpStatusCode code)
     {
+        // Convert To Integer
         var statusCode = (int)code;
+
+        // Check Redirect Range
         return statusCode >= 300 && statusCode <= 399;
     }
 
-    // Parse Version Tag
     private static Version ParseVersionFromTag(string tag)
     {
+        // Validate Tag Text
         if (string.IsNullOrEmpty(tag))
             return new Version(0, 0, 0);
+
+        // Strip Leading Prefix
         if (tag.Length > 0 && (tag[0] == 'v' || tag[0] == 'V'))
             tag = tag.Substring(1);
+
+        // Parse Safe Version
         return GetSafeVersion(tag);
     }
 
-    // Safe Version Parse
     private static Version GetSafeVersion(string text)
     {
+        // Validate Version Text
         if (string.IsNullOrEmpty(text))
             return new Version(0, 0, 0);
 
+        // Remove Build Suffix
         var plusIndex = text.IndexOf('+');
         if (plusIndex >= 0)
             text = text.Substring(0, plusIndex);
 
+        // Normalize Version Parts
         var parts = text.Split('.');
         var normalized =
             parts.Length >= 3 ? parts[0] + "." + parts[1] + "." + parts[2]
@@ -114,6 +124,7 @@ public static class UpdateChecker
             : parts.Length == 1 ? parts[0] + ".0.0"
             : "0.0.0";
 
+        // Try Parse Version
         if (!Version.TryParse(normalized, out var safeVersion))
             safeVersion = new Version(0, 0, 0);
 

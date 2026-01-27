@@ -6,7 +6,29 @@ namespace AFK_Assist.Helpers;
 static partial class GameWindowFinder
 {
     // Show Flags
-    private const int SW_SHOWMAXIMIZED = 3;
+    private const int SwShowMaximized = 3;
+
+    // Target Names
+    private static readonly string[] _knownTargetProcessNames =
+    [
+        // Test Targets
+        "notepad",
+        // Game Targets
+        "blackops6",
+        "cod",
+        "codmw",
+        "cs2",
+        "csgo",
+        "fifa23",
+        "fifa24",
+        "fifa25",
+        "gta5",
+        "overwatch",
+        "overwatch2",
+        "r5apex",
+        "rocketleague",
+        "valorant",
+    ];
 
     // Win32 Imports
     [LibraryImport("user32.dll")]
@@ -38,59 +60,44 @@ static partial class GameWindowFinder
     [LibraryImport("kernel32.dll")]
     private static partial uint GetCurrentThreadId();
 
-    // Target Names
-    private static readonly string[] s_knownTargetNames =
-    [
-        // Test Targets
-        "notepad",
-        // Game Targets
-        "blackops6",
-        "cod",
-        "codmw",
-        "cs2",
-        "csgo",
-        "fifa23",
-        "fifa24",
-        "fifa25",
-        "gta5",
-        "overwatch",
-        "overwatch2",
-        "r5apex",
-        "rocketleague",
-        "valorant",
-    ];
-
-    // Public Entry
     public static bool TryFocusKnownGameWindow(bool switchToGameEnabled)
     {
+        // Skip When Disabled
         if (!switchToGameEnabled)
             return false;
 
+        // Find Candidate Window
         var windowHandle = FindFirstMainWindow();
         if (windowHandle == nint.Zero)
             return false;
 
+        // Bring Window To Front
         return MaximizeAndFocus(windowHandle);
     }
 
-    // Find First Main Window
     private static nint FindFirstMainWindow()
     {
-        for (var index = 0; index < s_knownTargetNames.Length; index++)
+        // Iterate Known Targets
+        for (var targetIndex = 0; targetIndex < _knownTargetProcessNames.Length; targetIndex++)
         {
-            var targetProcessName = s_knownTargetNames[index];
+            // Read Process Name
+            var targetProcessName = _knownTargetProcessNames[targetIndex];
             if (string.IsNullOrWhiteSpace(targetProcessName))
                 continue;
 
+            // Find Matching Processes
             var processList = Process.GetProcessesByName(targetProcessName);
             if (processList == null || processList.Length == 0)
                 continue;
 
-            for (var p = 0; p < processList.Length; p++)
+            // Return First Main Window
+            for (var processIndex = 0; processIndex < processList.Length; processIndex++)
             {
-                var process = processList[p];
+                var process = processList[processIndex];
+
                 try
                 {
+                    // Refresh Process State
                     process.Refresh();
                 }
                 catch { }
@@ -100,53 +107,67 @@ static partial class GameWindowFinder
                     return handle;
             }
         }
+
         return nint.Zero;
     }
 
-    // Maximize And Focus
     private static bool MaximizeAndFocus(nint windowHandle)
     {
-        ShowWindow(windowHandle, SW_SHOWMAXIMIZED);
+        // Maximize Target Window
+        ShowWindow(windowHandle, SwShowMaximized);
 
+        // Try Simple Foreground
         if (TryForeground(windowHandle))
             return true;
 
-        var currentForeground = GetForegroundWindow();
-        var foregroundThreadId = GetWindowThreadIdSafe(currentForeground);
+        // Resolve Thread Ids
+        var currentForegroundHandle = GetForegroundWindow();
+        var foregroundThreadId = GetWindowThreadIdSafe(currentForegroundHandle);
         var currentThreadId = GetCurrentThreadId();
+
+        // Attach Threads If Possible
         if (foregroundThreadId != 0 && currentThreadId != 0)
         {
             try
             {
+                // Attach Input Threads
                 AttachThreadInput(currentThreadId, foregroundThreadId, true);
+
+                // Raise Window Z Order
                 BringWindowToTop(windowHandle);
+
+                // Force Foreground Window
                 var setOk = SetForegroundWindow(windowHandle);
                 return setOk;
             }
             finally
             {
+                // Detach Input Threads
                 AttachThreadInput(currentThreadId, foregroundThreadId, false);
             }
         }
 
+        // Fallback Focus Attempt
         BringWindowToTop(windowHandle);
         return SetForegroundWindow(windowHandle);
     }
 
-    // Foreground Try
     private static bool TryForeground(nint windowHandle)
     {
+        // Raise Window Z Order
         BringWindowToTop(windowHandle);
+
+        // Attempt Foreground Set
         return SetForegroundWindow(windowHandle);
     }
 
-    // Safe Thread Id
     private static uint GetWindowThreadIdSafe(nint windowHandle)
     {
+        // Validate Handle Value
         if (windowHandle == nint.Zero)
             return 0;
 
-        GetWindowThreadProcessId(windowHandle, out var _);
+        // Read Thread Identifier
         return GetWindowThreadProcessId(windowHandle, out _);
     }
 }

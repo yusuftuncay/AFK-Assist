@@ -167,7 +167,7 @@ namespace AFK_Assist
             // MainTimer
             // 
             this.MainTimer.Interval = 2000;
-            this.MainTimer.Tick += new System.EventHandler(this.MainTimer_TickAsync);
+            this.MainTimer.Tick += new System.EventHandler(this.ElapsedTimer_Tick);
             // 
             // MouseGroupBox
             // 

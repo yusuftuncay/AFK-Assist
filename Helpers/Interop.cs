@@ -2,7 +2,6 @@
 
 namespace AFK_Assist.Helpers;
 
-// Native Interop
 public static partial class Interop
 {
     // Mouse Flags
