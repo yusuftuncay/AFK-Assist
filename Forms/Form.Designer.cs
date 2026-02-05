@@ -19,435 +19,408 @@ namespace AFK_Assist
         #region Windows Form Designer generated code
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-
-            // Menu Strip
-            this.MenuStrip = new System.Windows.Forms.MenuStrip();
-            this.HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.HowToUseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CheckForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ExtraOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SwitchToGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RandomizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RandomizeIntervalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AzertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-
-            // Timer
-            this.MainTimer = new System.Windows.Forms.Timer(this.components);
-
-            // Mouse Controls
-            this.MouseGroupBox = new System.Windows.Forms.GroupBox();
-            this.MouseClickLeftCheckBox = new System.Windows.Forms.CheckBox();
-            this.MouseClickRightCheckBox = new System.Windows.Forms.CheckBox();
-
-            // Keyboard Controls
-            this.KeyboardGroupBox = new System.Windows.Forms.GroupBox();
-            this.WKeyCheckBox = new System.Windows.Forms.CheckBox();
-            this.AKeyCheckBox = new System.Windows.Forms.CheckBox();
-            this.SKeyCheckBox = new System.Windows.Forms.CheckBox();
-            this.DKeyCheckBox = new System.Windows.Forms.CheckBox();
-
-            // Speed Controls
-            this.GroupBox2 = new System.Windows.Forms.GroupBox();
-            this.LabelSpeed = new System.Windows.Forms.Label();
-            this.TrackBarSpeed = new System.Windows.Forms.TrackBar();
-
-            // Length Controls
-            this.GroupBox3 = new System.Windows.Forms.GroupBox();
-            this.NumericUpDownHours = new System.Windows.Forms.NumericUpDown();
-            this.NumericUpDownMinutes = new System.Windows.Forms.NumericUpDown();
-            this.LabelHours = new System.Windows.Forms.Label();
-            this.LabelMinutes = new System.Windows.Forms.Label();
-
-            // Logs
-            this.GroupBox4 = new System.Windows.Forms.GroupBox();
-            this.TextBoxLog = new System.Windows.Forms.TextBox();
-
-            // Time Display
-            this.GroupBox5 = new System.Windows.Forms.GroupBox();
-            this.LabelElapsedTime = new System.Windows.Forms.Label();
-
-            // Buttons
-            this.ButtonStart = new System.Windows.Forms.Button();
-            this.ButtonStop = new System.Windows.Forms.Button();
-
-            this.MenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownHours)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownMinutes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackBarSpeed)).BeginInit();
-            this.MouseGroupBox.SuspendLayout();
-            this.KeyboardGroupBox.SuspendLayout();
-            this.GroupBox2.SuspendLayout();
-            this.GroupBox3.SuspendLayout();
-            this.GroupBox4.SuspendLayout();
-            this.GroupBox5.SuspendLayout();
-            this.SuspendLayout();
-
+            components = new System.ComponentModel.Container();
+            MenuStrip = new System.Windows.Forms.MenuStrip();
+            HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            HowToUseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            CheckForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ExtraOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            SwitchToGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            RandomizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            RandomizeIntervalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            AzertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            MainTimer = new System.Windows.Forms.Timer(components);
+            MouseGroupBox = new System.Windows.Forms.GroupBox();
+            MouseClickLeftCheckBox = new System.Windows.Forms.CheckBox();
+            MouseClickRightCheckBox = new System.Windows.Forms.CheckBox();
+            KeyboardGroupBox = new System.Windows.Forms.GroupBox();
+            WKeyCheckBox = new System.Windows.Forms.CheckBox();
+            AKeyCheckBox = new System.Windows.Forms.CheckBox();
+            SKeyCheckBox = new System.Windows.Forms.CheckBox();
+            DKeyCheckBox = new System.Windows.Forms.CheckBox();
+            GroupBox2 = new System.Windows.Forms.GroupBox();
+            LabelSpeed = new System.Windows.Forms.Label();
+            TrackBarSpeed = new System.Windows.Forms.TrackBar();
+            GroupBox3 = new System.Windows.Forms.GroupBox();
+            NumericUpDownHours = new System.Windows.Forms.NumericUpDown();
+            NumericUpDownMinutes = new System.Windows.Forms.NumericUpDown();
+            LabelHours = new System.Windows.Forms.Label();
+            LabelMinutes = new System.Windows.Forms.Label();
+            GroupBox4 = new System.Windows.Forms.GroupBox();
+            TextBoxLog = new System.Windows.Forms.TextBox();
+            GroupBox5 = new System.Windows.Forms.GroupBox();
+            LabelElapsedTime = new System.Windows.Forms.Label();
+            ButtonStart = new System.Windows.Forms.Button();
+            ButtonStop = new System.Windows.Forms.Button();
+            MenuStrip.SuspendLayout();
+            MouseGroupBox.SuspendLayout();
+            KeyboardGroupBox.SuspendLayout();
+            GroupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)TrackBarSpeed).BeginInit();
+            GroupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NumericUpDownHours).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NumericUpDownMinutes).BeginInit();
+            GroupBox4.SuspendLayout();
+            GroupBox5.SuspendLayout();
+            SuspendLayout();
             // 
             // MenuStrip
             // 
-            this.MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.HelpToolStripMenuItem,
-            this.ExtraOptionsToolStripMenuItem});
-            this.MenuStrip.Location = new System.Drawing.Point(0, 0);
-            this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.MenuStrip.Size = new System.Drawing.Size(560, 28);
-            this.MenuStrip.TabIndex = 0;
-            this.MenuStrip.Text = "MenuStrip";
+            MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { HelpToolStripMenuItem, ExtraOptionsToolStripMenuItem });
+            MenuStrip.Location = new System.Drawing.Point(0, 0);
+            MenuStrip.Name = "MenuStrip";
+            MenuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            MenuStrip.Size = new System.Drawing.Size(560, 28);
+            MenuStrip.TabIndex = 0;
+            MenuStrip.Text = "MenuStrip";
             // 
             // HelpToolStripMenuItem
             // 
-            this.HelpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.HowToUseToolStripMenuItem,
-            this.CheckForUpdatesToolStripMenuItem});
-            this.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem";
-            this.HelpToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
-            this.HelpToolStripMenuItem.Text = "File";
+            HelpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { HowToUseToolStripMenuItem, CheckForUpdatesToolStripMenuItem });
+            HelpToolStripMenuItem.Name = "HelpToolStripMenuItem";
+            HelpToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            HelpToolStripMenuItem.Text = "File";
             // 
             // HowToUseToolStripMenuItem
             // 
-            this.HowToUseToolStripMenuItem.Name = "HowToUseToolStripMenuItem";
-            this.HowToUseToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
-            this.HowToUseToolStripMenuItem.Text = "How To Use";
-            this.HowToUseToolStripMenuItem.Click += new System.EventHandler(this.TutorialToolStripMenuItem_Click);
+            HowToUseToolStripMenuItem.Name = "HowToUseToolStripMenuItem";
+            HowToUseToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+            HowToUseToolStripMenuItem.Text = "How To Use";
+            HowToUseToolStripMenuItem.Click += TutorialToolStripMenuItem_Click;
             // 
             // CheckForUpdatesToolStripMenuItem
             // 
-            this.CheckForUpdatesToolStripMenuItem.Name = "CheckForUpdatesToolStripMenuItem";
-            this.CheckForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
-            this.CheckForUpdatesToolStripMenuItem.Text = "Check For Updates";
-            this.CheckForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.CheckForUpdatesToolStripMenuItem_Click);
+            CheckForUpdatesToolStripMenuItem.Name = "CheckForUpdatesToolStripMenuItem";
+            CheckForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+            CheckForUpdatesToolStripMenuItem.Text = "Check For Updates";
+            CheckForUpdatesToolStripMenuItem.Click += CheckForUpdatesToolStripMenuItem_Click;
             // 
             // ExtraOptionsToolStripMenuItem
             // 
-            this.ExtraOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SwitchToGameToolStripMenuItem,
-            this.RandomizeToolStripMenuItem,
-            this.RandomizeIntervalsToolStripMenuItem,
-            this.AzertyToolStripMenuItem});
-            this.ExtraOptionsToolStripMenuItem.Name = "ExtraOptionsToolStripMenuItem";
-            this.ExtraOptionsToolStripMenuItem.Size = new System.Drawing.Size(112, 24);
-            this.ExtraOptionsToolStripMenuItem.Text = "Extra Options";
+            ExtraOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { SwitchToGameToolStripMenuItem, RandomizeToolStripMenuItem, RandomizeIntervalsToolStripMenuItem, AzertyToolStripMenuItem });
+            ExtraOptionsToolStripMenuItem.Name = "ExtraOptionsToolStripMenuItem";
+            ExtraOptionsToolStripMenuItem.Size = new System.Drawing.Size(112, 24);
+            ExtraOptionsToolStripMenuItem.Text = "Extra Options";
             // 
             // SwitchToGameToolStripMenuItem
             // 
-            this.SwitchToGameToolStripMenuItem.CheckOnClick = true;
-            this.SwitchToGameToolStripMenuItem.Name = "SwitchToGameToolStripMenuItem";
-            this.SwitchToGameToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
-            this.SwitchToGameToolStripMenuItem.Text = "Switch To Game Automatically";
-            this.SwitchToGameToolStripMenuItem.Click += new System.EventHandler(this.SwitchToGameToolStripMenuItem_Click);
+            SwitchToGameToolStripMenuItem.Checked = true;
+            SwitchToGameToolStripMenuItem.CheckOnClick = true;
+            SwitchToGameToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            SwitchToGameToolStripMenuItem.Name = "SwitchToGameToolStripMenuItem";
+            SwitchToGameToolStripMenuItem.Size = new System.Drawing.Size(294, 26);
+            SwitchToGameToolStripMenuItem.Text = "Switch To Game Automatically";
+            SwitchToGameToolStripMenuItem.Click += SwitchToGameToolStripMenuItem_Click;
             // 
             // RandomizeToolStripMenuItem
             // 
-            this.RandomizeToolStripMenuItem.Checked = true;
-            this.RandomizeToolStripMenuItem.CheckOnClick = true;
-            this.RandomizeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.RandomizeToolStripMenuItem.Name = "RandomizeToolStripMenuItem";
-            this.RandomizeToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
-            this.RandomizeToolStripMenuItem.Text = "Randomize Simulation";
-            this.RandomizeToolStripMenuItem.Click += new System.EventHandler(this.RandomizeToolStripMenuItem_Click);
+            RandomizeToolStripMenuItem.Checked = true;
+            RandomizeToolStripMenuItem.CheckOnClick = true;
+            RandomizeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            RandomizeToolStripMenuItem.Name = "RandomizeToolStripMenuItem";
+            RandomizeToolStripMenuItem.Size = new System.Drawing.Size(294, 26);
+            RandomizeToolStripMenuItem.Text = "Randomize Simulation";
+            RandomizeToolStripMenuItem.Click += RandomizeToolStripMenuItem_Click;
             // 
             // RandomizeIntervalsToolStripMenuItem
             // 
-            this.RandomizeIntervalsToolStripMenuItem.Checked = true;
-            this.RandomizeIntervalsToolStripMenuItem.CheckOnClick = true;
-            this.RandomizeIntervalsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.RandomizeIntervalsToolStripMenuItem.Name = "RandomizeIntervalsToolStripMenuItem";
-            this.RandomizeIntervalsToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
-            this.RandomizeIntervalsToolStripMenuItem.Text = "Randomize Intervals";
-            this.RandomizeIntervalsToolStripMenuItem.Click += new System.EventHandler(this.RandomizeIntervalsToolStripMenuItem_Click);
+            RandomizeIntervalsToolStripMenuItem.Checked = true;
+            RandomizeIntervalsToolStripMenuItem.CheckOnClick = true;
+            RandomizeIntervalsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            RandomizeIntervalsToolStripMenuItem.Name = "RandomizeIntervalsToolStripMenuItem";
+            RandomizeIntervalsToolStripMenuItem.Size = new System.Drawing.Size(294, 26);
+            RandomizeIntervalsToolStripMenuItem.Text = "Randomize Intervals";
+            RandomizeIntervalsToolStripMenuItem.Click += RandomizeIntervalsToolStripMenuItem_Click;
             // 
             // AzertyToolStripMenuItem
             // 
-            this.AzertyToolStripMenuItem.CheckOnClick = true;
-            this.AzertyToolStripMenuItem.Name = "AzertyToolStripMenuItem";
-            this.AzertyToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
-            this.AzertyToolStripMenuItem.Text = "Azerty Layout";
-            this.AzertyToolStripMenuItem.Click += new System.EventHandler(this.AzertyToolStripMenuItem_Click);
+            AzertyToolStripMenuItem.CheckOnClick = true;
+            AzertyToolStripMenuItem.Name = "AzertyToolStripMenuItem";
+            AzertyToolStripMenuItem.Size = new System.Drawing.Size(294, 26);
+            AzertyToolStripMenuItem.Text = "Azerty Layout";
+            AzertyToolStripMenuItem.Click += AzertyToolStripMenuItem_Click;
             // 
             // MainTimer
             // 
-            this.MainTimer.Interval = 2000;
-            this.MainTimer.Tick += new System.EventHandler(this.ElapsedTimer_Tick);
+            MainTimer.Interval = 2000;
+            MainTimer.Tick += ElapsedTimer_Tick;
             // 
             // MouseGroupBox
             // 
-            this.MouseGroupBox.Controls.Add(this.MouseClickLeftCheckBox);
-            this.MouseGroupBox.Controls.Add(this.MouseClickRightCheckBox);
-            this.MouseGroupBox.Location = new System.Drawing.Point(10, 35);
-            this.MouseGroupBox.Name = "MouseGroupBox";
-            this.MouseGroupBox.Size = new System.Drawing.Size(200, 69);
-            this.MouseGroupBox.TabIndex = 0;
-            this.MouseGroupBox.TabStop = false;
-            this.MouseGroupBox.Text = "Mouse";
+            MouseGroupBox.Controls.Add(MouseClickLeftCheckBox);
+            MouseGroupBox.Controls.Add(MouseClickRightCheckBox);
+            MouseGroupBox.Location = new System.Drawing.Point(10, 35);
+            MouseGroupBox.Name = "MouseGroupBox";
+            MouseGroupBox.Size = new System.Drawing.Size(200, 69);
+            MouseGroupBox.TabIndex = 0;
+            MouseGroupBox.TabStop = false;
+            MouseGroupBox.Text = "Mouse";
             // 
             // MouseClickLeftCheckBox
             // 
-            this.MouseClickLeftCheckBox.AutoSize = true;
-            this.MouseClickLeftCheckBox.Location = new System.Drawing.Point(10, 22);
-            this.MouseClickLeftCheckBox.Name = "MouseClickLeftCheckBox";
-            this.MouseClickLeftCheckBox.Size = new System.Drawing.Size(93, 21);
-            this.MouseClickLeftCheckBox.TabIndex = 0;
-            this.MouseClickLeftCheckBox.Text = "Left Click";
-            this.MouseClickLeftCheckBox.UseVisualStyleBackColor = true;
+            MouseClickLeftCheckBox.AutoSize = true;
+            MouseClickLeftCheckBox.Location = new System.Drawing.Point(10, 22);
+            MouseClickLeftCheckBox.Name = "MouseClickLeftCheckBox";
+            MouseClickLeftCheckBox.Size = new System.Drawing.Size(93, 21);
+            MouseClickLeftCheckBox.TabIndex = 0;
+            MouseClickLeftCheckBox.Text = "Left Click";
+            MouseClickLeftCheckBox.UseVisualStyleBackColor = true;
             // 
             // MouseClickRightCheckBox
             // 
-            this.MouseClickRightCheckBox.AutoSize = true;
-            this.MouseClickRightCheckBox.Location = new System.Drawing.Point(10, 45);
-            this.MouseClickRightCheckBox.Name = "MouseClickRightCheckBox";
-            this.MouseClickRightCheckBox.Size = new System.Drawing.Size(103, 21);
-            this.MouseClickRightCheckBox.TabIndex = 1;
-            this.MouseClickRightCheckBox.Text = "Right Click";
-            this.MouseClickRightCheckBox.UseVisualStyleBackColor = true;
+            MouseClickRightCheckBox.AutoSize = true;
+            MouseClickRightCheckBox.Location = new System.Drawing.Point(10, 45);
+            MouseClickRightCheckBox.Name = "MouseClickRightCheckBox";
+            MouseClickRightCheckBox.Size = new System.Drawing.Size(103, 21);
+            MouseClickRightCheckBox.TabIndex = 1;
+            MouseClickRightCheckBox.Text = "Right Click";
+            MouseClickRightCheckBox.UseVisualStyleBackColor = true;
             // 
             // KeyboardGroupBox
             // 
-            this.KeyboardGroupBox.Controls.Add(this.WKeyCheckBox);
-            this.KeyboardGroupBox.Controls.Add(this.AKeyCheckBox);
-            this.KeyboardGroupBox.Controls.Add(this.SKeyCheckBox);
-            this.KeyboardGroupBox.Controls.Add(this.DKeyCheckBox);
-            this.KeyboardGroupBox.Location = new System.Drawing.Point(10, 110);
-            this.KeyboardGroupBox.Name = "KeyboardGroupBox";
-            this.KeyboardGroupBox.Size = new System.Drawing.Size(200, 115);
-            this.KeyboardGroupBox.TabIndex = 1;
-            this.KeyboardGroupBox.TabStop = false;
-            this.KeyboardGroupBox.Text = "Keyboard";
+            KeyboardGroupBox.Controls.Add(WKeyCheckBox);
+            KeyboardGroupBox.Controls.Add(AKeyCheckBox);
+            KeyboardGroupBox.Controls.Add(SKeyCheckBox);
+            KeyboardGroupBox.Controls.Add(DKeyCheckBox);
+            KeyboardGroupBox.Location = new System.Drawing.Point(10, 110);
+            KeyboardGroupBox.Name = "KeyboardGroupBox";
+            KeyboardGroupBox.Size = new System.Drawing.Size(200, 115);
+            KeyboardGroupBox.TabIndex = 1;
+            KeyboardGroupBox.TabStop = false;
+            KeyboardGroupBox.Text = "Keyboard";
             // 
             // WKeyCheckBox
             // 
-            this.WKeyCheckBox.AutoSize = true;
-            this.WKeyCheckBox.Location = new System.Drawing.Point(10, 22);
-            this.WKeyCheckBox.Name = "WKeyCheckBox";
-            this.WKeyCheckBox.Size = new System.Drawing.Size(76, 21);
-            this.WKeyCheckBox.TabIndex = 0;
-            this.WKeyCheckBox.Text = "W Key";
-            this.WKeyCheckBox.UseVisualStyleBackColor = true;
+            WKeyCheckBox.AutoSize = true;
+            WKeyCheckBox.Location = new System.Drawing.Point(10, 22);
+            WKeyCheckBox.Name = "WKeyCheckBox";
+            WKeyCheckBox.Size = new System.Drawing.Size(76, 21);
+            WKeyCheckBox.TabIndex = 0;
+            WKeyCheckBox.Text = "W Key";
+            WKeyCheckBox.UseVisualStyleBackColor = true;
             // 
             // AKeyCheckBox
             // 
-            this.AKeyCheckBox.AutoSize = true;
-            this.AKeyCheckBox.Location = new System.Drawing.Point(10, 45);
-            this.AKeyCheckBox.Name = "AKeyCheckBox";
-            this.AKeyCheckBox.Size = new System.Drawing.Size(71, 21);
-            this.AKeyCheckBox.TabIndex = 1;
-            this.AKeyCheckBox.Text = "A Key";
-            this.AKeyCheckBox.UseVisualStyleBackColor = true;
+            AKeyCheckBox.AutoSize = true;
+            AKeyCheckBox.Location = new System.Drawing.Point(10, 45);
+            AKeyCheckBox.Name = "AKeyCheckBox";
+            AKeyCheckBox.Size = new System.Drawing.Size(71, 21);
+            AKeyCheckBox.TabIndex = 1;
+            AKeyCheckBox.Text = "A Key";
+            AKeyCheckBox.UseVisualStyleBackColor = true;
             // 
             // SKeyCheckBox
             // 
-            this.SKeyCheckBox.AutoSize = true;
-            this.SKeyCheckBox.Location = new System.Drawing.Point(10, 68);
-            this.SKeyCheckBox.Name = "SKeyCheckBox";
-            this.SKeyCheckBox.Size = new System.Drawing.Size(71, 21);
-            this.SKeyCheckBox.TabIndex = 2;
-            this.SKeyCheckBox.Text = "S Key";
-            this.SKeyCheckBox.UseVisualStyleBackColor = true;
+            SKeyCheckBox.AutoSize = true;
+            SKeyCheckBox.Location = new System.Drawing.Point(10, 68);
+            SKeyCheckBox.Name = "SKeyCheckBox";
+            SKeyCheckBox.Size = new System.Drawing.Size(71, 21);
+            SKeyCheckBox.TabIndex = 2;
+            SKeyCheckBox.Text = "S Key";
+            SKeyCheckBox.UseVisualStyleBackColor = true;
             // 
             // DKeyCheckBox
             // 
-            this.DKeyCheckBox.AutoSize = true;
-            this.DKeyCheckBox.Location = new System.Drawing.Point(10, 91);
-            this.DKeyCheckBox.Name = "DKeyCheckBox";
-            this.DKeyCheckBox.Size = new System.Drawing.Size(72, 21);
-            this.DKeyCheckBox.TabIndex = 3;
-            this.DKeyCheckBox.Text = "D Key";
-            this.DKeyCheckBox.UseVisualStyleBackColor = true;
+            DKeyCheckBox.AutoSize = true;
+            DKeyCheckBox.Location = new System.Drawing.Point(10, 91);
+            DKeyCheckBox.Name = "DKeyCheckBox";
+            DKeyCheckBox.Size = new System.Drawing.Size(72, 21);
+            DKeyCheckBox.TabIndex = 3;
+            DKeyCheckBox.Text = "D Key";
+            DKeyCheckBox.UseVisualStyleBackColor = true;
             // 
             // GroupBox2
             // 
-            this.GroupBox2.Controls.Add(this.LabelSpeed);
-            this.GroupBox2.Controls.Add(this.TrackBarSpeed);
-            this.GroupBox2.Location = new System.Drawing.Point(10, 231);
-            this.GroupBox2.Name = "GroupBox2";
-            this.GroupBox2.Size = new System.Drawing.Size(200, 98);
-            this.GroupBox2.TabIndex = 12;
-            this.GroupBox2.TabStop = false;
-            this.GroupBox2.Text = "Speed";
+            GroupBox2.Controls.Add(LabelSpeed);
+            GroupBox2.Controls.Add(TrackBarSpeed);
+            GroupBox2.Location = new System.Drawing.Point(10, 231);
+            GroupBox2.Name = "GroupBox2";
+            GroupBox2.Size = new System.Drawing.Size(200, 98);
+            GroupBox2.TabIndex = 12;
+            GroupBox2.TabStop = false;
+            GroupBox2.Text = "Speed";
             // 
             // LabelSpeed
             // 
-            this.LabelSpeed.Location = new System.Drawing.Point(10, 20);
-            this.LabelSpeed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelSpeed.Name = "LabelSpeed";
-            this.LabelSpeed.Size = new System.Drawing.Size(180, 25);
-            this.LabelSpeed.TabIndex = 6;
-            this.LabelSpeed.Text = "1 Simulation / Minute";
-            this.LabelSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            LabelSpeed.Location = new System.Drawing.Point(10, 20);
+            LabelSpeed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            LabelSpeed.Name = "LabelSpeed";
+            LabelSpeed.Size = new System.Drawing.Size(180, 25);
+            LabelSpeed.TabIndex = 6;
+            LabelSpeed.Text = "1 Simulation / Minute";
+            LabelSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TrackBarSpeed
             // 
-            this.TrackBarSpeed.LargeChange = 2;
-            this.TrackBarSpeed.Location = new System.Drawing.Point(10, 50);
-            this.TrackBarSpeed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.TrackBarSpeed.Minimum = 1;
-            this.TrackBarSpeed.Name = "TrackBarSpeed";
-            this.TrackBarSpeed.Size = new System.Drawing.Size(180, 56);
-            this.TrackBarSpeed.TabIndex = 2;
-            this.TrackBarSpeed.Value = 1;
-            this.TrackBarSpeed.Scroll += new System.EventHandler(this.TrackBarSpeed_Scroll);
+            TrackBarSpeed.LargeChange = 2;
+            TrackBarSpeed.Location = new System.Drawing.Point(10, 50);
+            TrackBarSpeed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TrackBarSpeed.Minimum = 1;
+            TrackBarSpeed.Name = "TrackBarSpeed";
+            TrackBarSpeed.Size = new System.Drawing.Size(180, 56);
+            TrackBarSpeed.TabIndex = 2;
+            TrackBarSpeed.Value = 1;
+            TrackBarSpeed.Scroll += TrackBarSpeed_Scroll;
             // 
             // GroupBox3
             // 
-            this.GroupBox3.Controls.Add(this.NumericUpDownHours);
-            this.GroupBox3.Controls.Add(this.NumericUpDownMinutes);
-            this.GroupBox3.Controls.Add(this.LabelHours);
-            this.GroupBox3.Controls.Add(this.LabelMinutes);
-            this.GroupBox3.Location = new System.Drawing.Point(10, 335);
-            this.GroupBox3.Name = "GroupBox3";
-            this.GroupBox3.Size = new System.Drawing.Size(200, 98);
-            this.GroupBox3.TabIndex = 13;
-            this.GroupBox3.TabStop = false;
-            this.GroupBox3.Text = "Length";
+            GroupBox3.Controls.Add(NumericUpDownHours);
+            GroupBox3.Controls.Add(NumericUpDownMinutes);
+            GroupBox3.Controls.Add(LabelHours);
+            GroupBox3.Controls.Add(LabelMinutes);
+            GroupBox3.Location = new System.Drawing.Point(10, 335);
+            GroupBox3.Name = "GroupBox3";
+            GroupBox3.Size = new System.Drawing.Size(200, 98);
+            GroupBox3.TabIndex = 13;
+            GroupBox3.TabStop = false;
+            GroupBox3.Text = "Length";
             // 
             // NumericUpDownHours
             // 
-            this.NumericUpDownHours.DecimalPlaces = 0;
-            this.NumericUpDownHours.Location = new System.Drawing.Point(10, 30);
-            this.NumericUpDownHours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericUpDownHours.Maximum = 8;
-            this.NumericUpDownHours.Name = "NumericUpDownHours";
-            this.NumericUpDownHours.Size = new System.Drawing.Size(65, 21);
-            this.NumericUpDownHours.TabIndex = 0;
-            this.NumericUpDownHours.Value = 8;
-            this.NumericUpDownHours.ValueChanged += new System.EventHandler(this.NumericUpDownHours_ValueChanged);
+            NumericUpDownHours.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            NumericUpDownHours.Location = new System.Drawing.Point(7, 30);
+            NumericUpDownHours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumericUpDownHours.Maximum = new decimal(new int[] { 8, 0, 0, 0 });
+            NumericUpDownHours.Name = "NumericUpDownHours";
+            NumericUpDownHours.Size = new System.Drawing.Size(90, 24);
+            NumericUpDownHours.TabIndex = 0;
+            NumericUpDownHours.Value = new decimal(new int[] { 8, 0, 0, 0 });
+            NumericUpDownHours.ValueChanged += NumericUpDownHours_ValueChanged;
             // 
             // NumericUpDownMinutes
             // 
-            this.NumericUpDownMinutes.DecimalPlaces = 0;
-            this.NumericUpDownMinutes.Location = new System.Drawing.Point(105, 30);
-            this.NumericUpDownMinutes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.NumericUpDownMinutes.Maximum = 59;
-            this.NumericUpDownMinutes.Name = "NumericUpDownMinutes";
-            this.NumericUpDownMinutes.Size = new System.Drawing.Size(65, 21);
-            this.NumericUpDownMinutes.TabIndex = 1;
-            this.NumericUpDownMinutes.ValueChanged += new System.EventHandler(this.NumericUpDownMinutes_ValueChanged);
+            NumericUpDownMinutes.Location = new System.Drawing.Point(103, 30);
+            NumericUpDownMinutes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NumericUpDownMinutes.Maximum = new decimal(new int[] { 59, 0, 0, 0 });
+            NumericUpDownMinutes.Name = "NumericUpDownMinutes";
+            NumericUpDownMinutes.Size = new System.Drawing.Size(90, 24);
+            NumericUpDownMinutes.TabIndex = 1;
+            NumericUpDownMinutes.ValueChanged += NumericUpDownMinutes_ValueChanged;
             // 
             // LabelHours
             // 
-            this.LabelHours.AutoSize = true;
-            this.LabelHours.Location = new System.Drawing.Point(10, 53);
-            this.LabelHours.Name = "LabelHours";
-            this.LabelHours.Size = new System.Drawing.Size(45, 17);
-            this.LabelHours.TabIndex = 6;
-            this.LabelHours.Text = "Hours";
+            LabelHours.AutoSize = true;
+            LabelHours.Location = new System.Drawing.Point(7, 57);
+            LabelHours.Name = "LabelHours";
+            LabelHours.Size = new System.Drawing.Size(50, 17);
+            LabelHours.TabIndex = 6;
+            LabelHours.Text = "Hours";
             // 
             // LabelMinutes
             // 
-            this.LabelMinutes.AutoSize = true;
-            this.LabelMinutes.Location = new System.Drawing.Point(105, 53);
-            this.LabelMinutes.Name = "LabelMinutes";
-            this.LabelMinutes.Size = new System.Drawing.Size(60, 17);
-            this.LabelMinutes.TabIndex = 7;
-            this.LabelMinutes.Text = "Minutes";
+            LabelMinutes.AutoSize = true;
+            LabelMinutes.Location = new System.Drawing.Point(103, 57);
+            LabelMinutes.Name = "LabelMinutes";
+            LabelMinutes.Size = new System.Drawing.Size(62, 17);
+            LabelMinutes.TabIndex = 7;
+            LabelMinutes.Text = "Minutes";
             // 
             // GroupBox4
             // 
-            this.GroupBox4.Controls.Add(this.TextBoxLog);
-            this.GroupBox4.Location = new System.Drawing.Point(220, 35);
-            this.GroupBox4.Name = "GroupBox4";
-            this.GroupBox4.Size = new System.Drawing.Size(330, 398);
-            this.GroupBox4.TabIndex = 14;
-            this.GroupBox4.TabStop = false;
-            this.GroupBox4.Text = "Logs";
+            GroupBox4.Controls.Add(TextBoxLog);
+            GroupBox4.Location = new System.Drawing.Point(220, 35);
+            GroupBox4.Name = "GroupBox4";
+            GroupBox4.Size = new System.Drawing.Size(330, 398);
+            GroupBox4.TabIndex = 14;
+            GroupBox4.TabStop = false;
+            GroupBox4.Text = "Logs";
             // 
             // TextBoxLog
             // 
-            this.TextBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TextBoxLog.Location = new System.Drawing.Point(10, 22);
-            this.TextBoxLog.Multiline = true;
-            this.TextBoxLog.Name = "TextBoxLog";
-            this.TextBoxLog.ReadOnly = true;
-            this.TextBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBoxLog.Size = new System.Drawing.Size(310, 370);
-            this.TextBoxLog.TabIndex = 0;
+            TextBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            TextBoxLog.Location = new System.Drawing.Point(10, 22);
+            TextBoxLog.Multiline = true;
+            TextBoxLog.Name = "TextBoxLog";
+            TextBoxLog.ReadOnly = true;
+            TextBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            TextBoxLog.Size = new System.Drawing.Size(310, 370);
+            TextBoxLog.TabIndex = 0;
             // 
             // GroupBox5
             // 
-            this.GroupBox5.Controls.Add(this.LabelElapsedTime);
-            this.GroupBox5.Location = new System.Drawing.Point(220, 439);
-            this.GroupBox5.Name = "GroupBox5";
-            this.GroupBox5.Size = new System.Drawing.Size(330, 66);
-            this.GroupBox5.TabIndex = 15;
-            this.GroupBox5.TabStop = false;
-            this.GroupBox5.Text = "Time";
+            GroupBox5.Controls.Add(LabelElapsedTime);
+            GroupBox5.Location = new System.Drawing.Point(220, 439);
+            GroupBox5.Name = "GroupBox5";
+            GroupBox5.Size = new System.Drawing.Size(330, 66);
+            GroupBox5.TabIndex = 15;
+            GroupBox5.TabStop = false;
+            GroupBox5.Text = "Time";
             // 
             // LabelElapsedTime
             // 
-            this.LabelElapsedTime.Location = new System.Drawing.Point(6, 20);
-            this.LabelElapsedTime.Name = "LabelElapsedTime";
-            this.LabelElapsedTime.Size = new System.Drawing.Size(318, 43);
-            this.LabelElapsedTime.TabIndex = 1;
-            this.LabelElapsedTime.Text = "Elapsed: 00:00\r\nRemaining: 00:00";
-            this.LabelElapsedTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            LabelElapsedTime.Location = new System.Drawing.Point(6, 20);
+            LabelElapsedTime.Name = "LabelElapsedTime";
+            LabelElapsedTime.Size = new System.Drawing.Size(318, 43);
+            LabelElapsedTime.TabIndex = 1;
+            LabelElapsedTime.Text = "Elapsed: 00:00\r\nRemaining: 00:00";
+            LabelElapsedTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ButtonStart
             // 
-            this.ButtonStart.Location = new System.Drawing.Point(10, 439);
-            this.ButtonStart.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonStart.Name = "ButtonStart";
-            this.ButtonStart.Size = new System.Drawing.Size(200, 30);
-            this.ButtonStart.TabIndex = 3;
-            this.ButtonStart.Text = "Start";
-            this.ButtonStart.UseVisualStyleBackColor = true;
-            this.ButtonStart.Click += new System.EventHandler(this.ButtonStart_ClickAsync);
+            ButtonStart.Location = new System.Drawing.Point(10, 439);
+            ButtonStart.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonStart.Name = "ButtonStart";
+            ButtonStart.Size = new System.Drawing.Size(200, 30);
+            ButtonStart.TabIndex = 3;
+            ButtonStart.Text = "Start";
+            ButtonStart.UseVisualStyleBackColor = true;
+            ButtonStart.Click += ButtonStart_ClickAsync;
             // 
             // ButtonStop
             // 
-            this.ButtonStop.Enabled = false;
-            this.ButtonStop.Location = new System.Drawing.Point(10, 475);
-            this.ButtonStop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ButtonStop.Name = "ButtonStop";
-            this.ButtonStop.Size = new System.Drawing.Size(200, 30);
-            this.ButtonStop.TabIndex = 4;
-            this.ButtonStop.Text = "Stop";
-            this.ButtonStop.UseVisualStyleBackColor = true;
-            this.ButtonStop.Click += new System.EventHandler(this.ButtonStop_Click);
+            ButtonStop.Enabled = false;
+            ButtonStop.Location = new System.Drawing.Point(10, 475);
+            ButtonStop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ButtonStop.Name = "ButtonStop";
+            ButtonStop.Size = new System.Drawing.Size(200, 30);
+            ButtonStop.TabIndex = 4;
+            ButtonStop.Text = "Stop";
+            ButtonStop.UseVisualStyleBackColor = true;
+            ButtonStop.Click += ButtonStop_Click;
             // 
             // Form
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(560, 515);
-            this.Controls.Add(this.GroupBox5);
-            this.Controls.Add(this.GroupBox4);
-            this.Controls.Add(this.GroupBox3);
-            this.Controls.Add(this.GroupBox2);
-            this.Controls.Add(this.KeyboardGroupBox);
-            this.Controls.Add(this.MouseGroupBox);
-            this.Controls.Add(this.ButtonStop);
-            this.Controls.Add(this.ButtonStart);
-            this.Controls.Add(this.MenuStrip);
-            this.Font = new System.Drawing.Font("Verdana", 8.25F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MainMenuStrip = this.MenuStrip;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.MaximizeBox = false;
-            this.Name = "Form";
-            this.ShowIcon = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AFK Assist";
-            this.TopMost = true;
-            this.MenuStrip.ResumeLayout(false);
-            this.MenuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownHours)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownMinutes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackBarSpeed)).EndInit();
-            this.MouseGroupBox.ResumeLayout(false);
-            this.MouseGroupBox.PerformLayout();
-            this.KeyboardGroupBox.ResumeLayout(false);
-            this.KeyboardGroupBox.PerformLayout();
-            this.GroupBox2.ResumeLayout(false);
-            this.GroupBox2.PerformLayout();
-            this.GroupBox3.ResumeLayout(false);
-            this.GroupBox3.PerformLayout();
-            this.GroupBox4.ResumeLayout(false);
-            this.GroupBox4.PerformLayout();
-            this.GroupBox5.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            ClientSize = new System.Drawing.Size(560, 515);
+            Controls.Add(GroupBox5);
+            Controls.Add(GroupBox4);
+            Controls.Add(GroupBox3);
+            Controls.Add(GroupBox2);
+            Controls.Add(KeyboardGroupBox);
+            Controls.Add(MouseGroupBox);
+            Controls.Add(ButtonStop);
+            Controls.Add(ButtonStart);
+            Controls.Add(MenuStrip);
+            Font = new System.Drawing.Font("Verdana", 8.25F);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            MainMenuStrip = MenuStrip;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            Name = "Form";
+            ShowIcon = false;
+            SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "AFK Assist";
+            TopMost = true;
+            MenuStrip.ResumeLayout(false);
+            MenuStrip.PerformLayout();
+            MouseGroupBox.ResumeLayout(false);
+            MouseGroupBox.PerformLayout();
+            KeyboardGroupBox.ResumeLayout(false);
+            KeyboardGroupBox.PerformLayout();
+            GroupBox2.ResumeLayout(false);
+            GroupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)TrackBarSpeed).EndInit();
+            GroupBox3.ResumeLayout(false);
+            GroupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)NumericUpDownHours).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NumericUpDownMinutes).EndInit();
+            GroupBox4.ResumeLayout(false);
+            GroupBox4.PerformLayout();
+            GroupBox5.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
         #endregion
 

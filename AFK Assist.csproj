@@ -1,12 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <!-- Basic Project Configuration -->
     <TargetFramework>net10.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>AFK_Assist</RootNamespace>
-    <Version>3.0.0</Version>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
-    <FileVersion>3.0.0.0</FileVersion>
-    <InformationalVersion>3.0.0</InformationalVersion>
+    <!-- Version Information -->
+    <Version>4.0.0</Version>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
+    <InformationalVersion>4.0.0</InformationalVersion>
+    <!-- Publishing and Deployment Settings -->
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>C:\Users\YusufTuncay\Downloads\</PublishUrl>
     <Install>true</Install>
@@ -22,19 +25,22 @@
     <ProductName>AFK Assist</ProductName>
     <PublisherName>Yusuf Tuncay</PublisherName>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>3.0.0.0</ApplicationVersion>
+    <ApplicationVersion>4.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <!-- Windows Forms Settings -->
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <ManifestCertificateThumbprint>8DE92D479129DA9FCCDA40753FC4764D5ECE6C82</ManifestCertificateThumbprint>
+    <!-- Manifest and Signing -->
+    <!--<ManifestCertificateThumbprint>8DE92D479129DA9FCCDA40753FC4764D5ECE6C82</ManifestCertificateThumbprint>
     <ManifestKeyFile>AFK Assist_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
     <TargetZone>LocalIntranet</TargetZone>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-    <SignManifests>true</SignManifests>
+    <SignManifests>true</SignManifests>-->
+    <!-- Build Settings -->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
