@@ -197,14 +197,10 @@ public partial class Form : System.Windows.Forms.Form
         var elapsedMinutes = (int)finalElapsed.TotalMinutes % 60;
         var elapsedSeconds = (int)finalElapsed.TotalSeconds % 60;
 
-        var totalMinutes = TrackBarLength.Value;
-        var displayTime =
-            totalMinutes >= 60 && elapsedHours > 0
-                ? $"{elapsedHours:00}:{elapsedMinutes:00}:{elapsedSeconds:00}"
-                : $"{elapsedMinutes:00}:{elapsedSeconds:00}";
+        var displayTime = $"{elapsedHours:00}h {elapsedMinutes:00}m {elapsedSeconds:00}s";
 
         // Set Final Label Text
-        LabelElapsedTime.Text = $"Elapsed: {displayTime}\nRemaining: 00:00";
+        LabelElapsedTime.Text = $"Elapsed: {displayTime}\nRemaining: 00h 00m 00s";
     }
 
     private void PauseSimulation()
@@ -341,29 +337,42 @@ public partial class Form : System.Windows.Forms.Form
             await FocusGameOnceAsync();
         }
 
+        // Compute Target Duration
+        var totalDuration = TimeSpan.FromMinutes(
+            ((int)NumericUpDownHours.Value * 60) + (int)NumericUpDownMinutes.Value
+        );
+
+        // Run Duration Monitor Parallel
+        var durationTask = Task.Run(async () =>
+        {
+            try
+            {
+                while (!_simulationCancellation.Token.IsCancellationRequested)
+                {
+                    // Stop When Time Reached
+                    if (!_isPaused && _runStopwatch.Elapsed >= totalDuration)
+                    {
+                        // Invoke on UI Thread
+                        if (ButtonStop.InvokeRequired)
+                        {
+                            ButtonStop.Invoke(new Action(() => ButtonStop.PerformClick()));
+                        }
+                        else
+                        {
+                            ButtonStop.PerformClick();
+                        }
+                        break;
+                    }
+
+                    // Keep Loop Responsive
+                    await Task.Delay(100, _simulationCancellation.Token);
+                }
+            }
+            catch (TaskCanceledException) { }
+        });
+
         // Start Background Loop
         await RunSimulationLoopAsync(_simulationCancellation.Token);
-
-        // Stop After Active Duration
-        try
-        {
-            // Compute Target Duration
-            var totalDuration = TimeSpan.FromMinutes(TrackBarLength.Value);
-
-            while (!_simulationCancellation.Token.IsCancellationRequested)
-            {
-                // Stop When Time Reached
-                if (!_isPaused && _runStopwatch.Elapsed >= totalDuration)
-                {
-                    ButtonStop.PerformClick();
-                    break;
-                }
-
-                // Keep Loop Responsive
-                await Task.Delay(100, _simulationCancellation.Token);
-            }
-        }
-        catch (TaskCanceledException) { }
     }
 
     private async Task FocusGameOnceAsync()

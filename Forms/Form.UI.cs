@@ -14,8 +14,9 @@ public partial class Form
         MouseGroupBox.Enabled = true;
         KeyboardGroupBox.Enabled = true;
 
-        // Enable Sliders
-        TrackBarLength.Enabled = true;
+        // Enable Controls
+        NumericUpDownHours.Enabled = true;
+        NumericUpDownMinutes.Enabled = true;
         TrackBarSpeed.Enabled = true;
 
         // Enable Buttons
@@ -32,8 +33,9 @@ public partial class Form
         MouseGroupBox.Enabled = false;
         KeyboardGroupBox.Enabled = false;
 
-        // Disable Sliders
-        TrackBarLength.Enabled = false;
+        // Disable Controls
+        NumericUpDownHours.Enabled = false;
+        NumericUpDownMinutes.Enabled = false;
         TrackBarSpeed.Enabled = false;
 
         // Enable Stop Button
@@ -115,26 +117,9 @@ public partial class Form
         }
     }
 
-    private void TrackBarLength_Scroll(object sender, EventArgs e)
-    {
-        // Read Current Value
-        var value = TrackBarLength.Value;
+    private void NumericUpDownHours_ValueChanged(object sender, EventArgs e) { }
 
-        // Render Minutes Text
-        if (value < 60)
-        {
-            LabelLength.Text = value == 1 ? "1 Minute" : $"{value} Minutes";
-        }
-        else
-        {
-            // Render Hours Text
-            var hours = value / 60;
-            var minutes = value % 60;
-
-            LabelLength.Text =
-                minutes == 0 ? (hours == 1 ? "1 Hour" : $"{hours} Hours") : $"{hours}h {minutes}m";
-        }
-    }
+    private void NumericUpDownMinutes_ValueChanged(object sender, EventArgs e) { }
 
     private void TrackBarSpeed_Scroll(object sender, EventArgs e)
     {

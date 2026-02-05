@@ -262,24 +262,20 @@ public partial class Form
         var elapsedSeconds = (int)elapsed.TotalSeconds % 60;
 
         // Compute Remaining Units
-        var totalSeconds = TrackBarLength.Value * 60;
+        var totalSeconds =
+            ((int)NumericUpDownHours.Value * 3600) + ((int)NumericUpDownMinutes.Value * 60);
         var remainingSeconds = Math.Max(0, totalSeconds - (int)elapsed.TotalSeconds);
 
         var remainingHours = remainingSeconds / 3600;
         var remainingMinutes = (remainingSeconds % 3600) / 60;
         var remainingSecondsOnly = remainingSeconds % 60;
 
-        // Format Elapsed Text
-        var elapsedText =
-            TrackBarLength.Value >= 60 && elapsedHours > 0
-                ? $"{elapsedHours:00}:{elapsedMinutes:00}:{elapsedSeconds:00}"
-                : $"{elapsedMinutes:00}:{elapsedSeconds:00}";
+        // Format Time Text
+        var elapsedText = $"{elapsedHours:00}h {elapsedMinutes:00}m {elapsedSeconds:00}s";
 
         // Format Remaining Text
         var remainingText =
-            TrackBarLength.Value >= 60
-                ? $"{remainingHours:00}:{remainingMinutes:00}:{remainingSecondsOnly:00}"
-                : $"{remainingMinutes:00}:{remainingSecondsOnly:00}";
+            $"{remainingHours:00}h {remainingMinutes:00}m {remainingSecondsOnly:00}s";
 
         // Update Label Safely
         if (LabelElapsedTime.InvokeRequired)

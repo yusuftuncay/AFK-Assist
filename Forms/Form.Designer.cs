@@ -54,8 +54,10 @@ namespace AFK_Assist
 
             // Length Controls
             this.GroupBox3 = new System.Windows.Forms.GroupBox();
-            this.LabelLength = new System.Windows.Forms.Label();
-            this.TrackBarLength = new System.Windows.Forms.TrackBar();
+            this.NumericUpDownHours = new System.Windows.Forms.NumericUpDown();
+            this.NumericUpDownMinutes = new System.Windows.Forms.NumericUpDown();
+            this.LabelHours = new System.Windows.Forms.Label();
+            this.LabelMinutes = new System.Windows.Forms.Label();
 
             // Logs
             this.GroupBox4 = new System.Windows.Forms.GroupBox();
@@ -70,7 +72,8 @@ namespace AFK_Assist
             this.ButtonStop = new System.Windows.Forms.Button();
 
             this.MenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackBarLength)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownHours)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarSpeed)).BeginInit();
             this.MouseGroupBox.SuspendLayout();
             this.KeyboardGroupBox.SuspendLayout();
@@ -288,8 +291,10 @@ namespace AFK_Assist
             // 
             // GroupBox3
             // 
-            this.GroupBox3.Controls.Add(this.LabelLength);
-            this.GroupBox3.Controls.Add(this.TrackBarLength);
+            this.GroupBox3.Controls.Add(this.NumericUpDownHours);
+            this.GroupBox3.Controls.Add(this.NumericUpDownMinutes);
+            this.GroupBox3.Controls.Add(this.LabelHours);
+            this.GroupBox3.Controls.Add(this.LabelMinutes);
             this.GroupBox3.Location = new System.Drawing.Point(10, 335);
             this.GroupBox3.Name = "GroupBox3";
             this.GroupBox3.Size = new System.Drawing.Size(200, 98);
@@ -297,28 +302,46 @@ namespace AFK_Assist
             this.GroupBox3.TabStop = false;
             this.GroupBox3.Text = "Length";
             // 
-            // LabelLength
+            // NumericUpDownHours
             // 
-            this.LabelLength.Location = new System.Drawing.Point(10, 20);
-            this.LabelLength.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelLength.Name = "LabelLength";
-            this.LabelLength.Size = new System.Drawing.Size(180, 25);
-            this.LabelLength.TabIndex = 5;
-            this.LabelLength.Text = "1 Minute";
-            this.LabelLength.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.NumericUpDownHours.DecimalPlaces = 0;
+            this.NumericUpDownHours.Location = new System.Drawing.Point(10, 30);
+            this.NumericUpDownHours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.NumericUpDownHours.Maximum = 8;
+            this.NumericUpDownHours.Name = "NumericUpDownHours";
+            this.NumericUpDownHours.Size = new System.Drawing.Size(65, 21);
+            this.NumericUpDownHours.TabIndex = 0;
+            this.NumericUpDownHours.Value = 8;
+            this.NumericUpDownHours.ValueChanged += new System.EventHandler(this.NumericUpDownHours_ValueChanged);
             // 
-            // TrackBarLength
+            // NumericUpDownMinutes
             // 
-            this.TrackBarLength.Location = new System.Drawing.Point(10, 50);
-            this.TrackBarLength.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.TrackBarLength.Maximum = 360;
-            this.TrackBarLength.Minimum = 1;
-            this.TrackBarLength.Name = "TrackBarLength";
-            this.TrackBarLength.Size = new System.Drawing.Size(180, 56);
-            this.TrackBarLength.TabIndex = 0;
-            this.TrackBarLength.TickFrequency = 10;
-            this.TrackBarLength.Value = 1;
-            this.TrackBarLength.Scroll += new System.EventHandler(this.TrackBarLength_Scroll);
+            this.NumericUpDownMinutes.DecimalPlaces = 0;
+            this.NumericUpDownMinutes.Location = new System.Drawing.Point(105, 30);
+            this.NumericUpDownMinutes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.NumericUpDownMinutes.Maximum = 59;
+            this.NumericUpDownMinutes.Name = "NumericUpDownMinutes";
+            this.NumericUpDownMinutes.Size = new System.Drawing.Size(65, 21);
+            this.NumericUpDownMinutes.TabIndex = 1;
+            this.NumericUpDownMinutes.ValueChanged += new System.EventHandler(this.NumericUpDownMinutes_ValueChanged);
+            // 
+            // LabelHours
+            // 
+            this.LabelHours.AutoSize = true;
+            this.LabelHours.Location = new System.Drawing.Point(10, 53);
+            this.LabelHours.Name = "LabelHours";
+            this.LabelHours.Size = new System.Drawing.Size(45, 17);
+            this.LabelHours.TabIndex = 6;
+            this.LabelHours.Text = "Hours";
+            // 
+            // LabelMinutes
+            // 
+            this.LabelMinutes.AutoSize = true;
+            this.LabelMinutes.Location = new System.Drawing.Point(105, 53);
+            this.LabelMinutes.Name = "LabelMinutes";
+            this.LabelMinutes.Size = new System.Drawing.Size(60, 17);
+            this.LabelMinutes.TabIndex = 7;
+            this.LabelMinutes.Text = "Minutes";
             // 
             // GroupBox4
             // 
@@ -409,7 +432,8 @@ namespace AFK_Assist
             this.TopMost = true;
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackBarLength)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownHours)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownMinutes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarSpeed)).EndInit();
             this.MouseGroupBox.ResumeLayout(false);
             this.MouseGroupBox.PerformLayout();
@@ -461,8 +485,10 @@ namespace AFK_Assist
 
         #region Controls - Length
         private System.Windows.Forms.GroupBox GroupBox3;
-        private System.Windows.Forms.Label LabelLength;
-        private System.Windows.Forms.TrackBar TrackBarLength;
+        private System.Windows.Forms.NumericUpDown NumericUpDownHours;
+        private System.Windows.Forms.NumericUpDown NumericUpDownMinutes;
+        private System.Windows.Forms.Label LabelHours;
+        private System.Windows.Forms.Label LabelMinutes;
         #endregion
 
         #region Controls - Logs
