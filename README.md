@@ -35,4 +35,4 @@ Keep your game active while you’re away by simulating keyboard and mouse input
 Get the Latest Version from the [Latest Release](https://github.com/yusuftuncay/AFK-Assist/releases/latest)
 
 ## Screenshots
-![AFK Assist UI](https://github.com/user-attachments/assets/2bf510bc-4e66-41ff-bdac-77bc88355980)
+![AFK Assist UI](https://github.com/user-attachments/assets/bc191c7b-3c90-4623-8828-042cbea8a0d2)
